@@ -1,3 +1,20 @@
+# ERPmine - ERP for service industry
+# Copyright (C) 2011-2016  Adhi software pvt ltd
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 class WktimeController < WkbaseController
 unloadable
 
@@ -109,7 +126,7 @@ include QueriesHelper
 	isError = params[:isError].blank? ? false : to_boolean(params[:isError])
 	if (!$tempEntries.blank? && isError)
 		@entries.each do |entry|	
-			if !entry.editable_by?(User.current) && !isAccountUser
+			if !entry.editable_by?(User.current) && !isAccountUser && !isBilledTimeEntry(entry)
 				$tempEntries << entry
 			end
 		end
@@ -175,7 +192,7 @@ include QueriesHelper
 						if (!entry.id.blank? && !entry.editable_by?(User.current))
 							allowSave = false
 						end
-						allowSave = true if (to_boolean(@edittimelogs) || isAccountUser)
+						allowSave = true if (to_boolean(@edittimelogs) || isAccountUser || !isBilledTimeEntry(entry))
 						#if !((Setting.plugin_redmine_wktime['wktime_allow_blank_issue'].blank? ||
 						#		Setting.plugin_redmine_wktime['wktime_allow_blank_issue'].to_i == 0) && 
 						#		entry.issue.blank?)
@@ -1178,8 +1195,8 @@ private
 											Setting.plugin_redmine_wktime['wktime_enter_cf_in_row2'].to_i == custom_field.id))
 											if use_detail_popup
 												cvs = custom_values[custom_field.id]
-												custom_value.value = cvs[k].blank? ? nil : 
-												custom_field.multiple? ? cvs[k].split(',') : cvs[k]	
+												#custom_value.value = cvs[k].blank? ? nil : (custom_field.multiple? ? cvs[k].split(',') : cvs[k])	
+												teEntry.custom_field_values = {custom_field.id => cvs[k].blank? ? nil : (custom_field.multiple? ? cvs[k].split(',') : cvs[k])}
 											end
 										end
 									end
@@ -1363,7 +1380,8 @@ private
 	end
   
     def check_editPermission
-		allowed = true;
+		allowed = true
+		hasBilledEntry = false
 		if api_request?
 			ids = gatherIDs			
 		else
@@ -1377,12 +1395,16 @@ private
 			@entries = findEntriesByCond(cond)
 		end
 		@entries.each do |entry|
-			if(!entry.editable_by?(User.current))
+			if isBilledTimeEntry(entry)
+				hasBilledEntry = true
 				allowed = false
 				break
 			end
+			if(!entry.editable_by?(User.current)) 
+				allowed = false
+			end
 		end
-		allowed = true if isAccountUser
+		allowed = true if isAccountUser && !hasBilledEntry
 		return allowed
 	end
 	

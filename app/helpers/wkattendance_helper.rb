@@ -1,3 +1,20 @@
+# ERPmine - ERP for service industry
+# Copyright (C) 2011-2016  Adhi software pvt ltd
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 module WkattendanceHelper	
 	include WktimeHelper
 	require 'csv' 
@@ -8,11 +25,6 @@ module WkattendanceHelper
                         ["#{l(:status_active)} (#{user_count_by_status[1].to_i})", '1'],
                         ["#{l(:status_registered)} (#{user_count_by_status[2].to_i})", '2'],
                         ["#{l(:status_locked)} (#{user_count_by_status[3].to_i})", '3']], selected.to_s)
-	end
-	
-	def getSettingCfId(settingId)
-		cfId = Setting.plugin_redmine_wktime[settingId].blank? ? 0 : Setting.plugin_redmine_wktime[settingId].to_i
-		cfId
 	end
 	
 	def getLeaveIssueIds
@@ -50,8 +62,6 @@ module WkattendanceHelper
 		
 		deleteWkUserLeaves(nil, currentMonthStart - 1)
 		
-		joinDateCFID = !Setting.plugin_redmine_wktime['wktime_attn_join_date_cf'].blank? ? Setting.plugin_redmine_wktime['wktime_attn_join_date_cf'].to_i : 0
-		
 		if !strIssueIds.blank?		
 			from = currentMonthStart << 1
 			to = (from >> 1) - 1
@@ -73,7 +83,7 @@ module WkattendanceHelper
 					"group by user_id) v3 on v3.user_id = v1.user_id " +
 					"left join wk_user_leaves ul on ul.user_id = v1.user_id and ul.issue_id = v1.issue_id " +
 					"and ul.accrual_on between '#{prev_mon_from}' and '#{prev_mon_to}' " +
-					"left join custom_values c on c.customized_id = v1.user_id and c.custom_field_id = #{joinDateCFID} " +
+					"left join custom_values c on c.customized_id = v1.user_id and c.custom_field_id = #{getSettingCfId('wktime_attn_join_date_cf')} " +
 					"where v1.status = 1 and v1.type = 'User'"
 					
 			entries = TimeEntry.find_by_sql(qryStr)		
@@ -160,6 +170,18 @@ module WkattendanceHelper
 			wkattendance = addNewAttendance(startTime,endTime,userId)
 		end
 		wkattendance
+	end
+	
+	#def getWorkingDays(fromDate,toDate)
+		#workingDays = TimeEntry.where("spent_on between '#{fromDate}' and '#{toDate}'").distinct(true).count(:spent_on)
+		#workingDays
+		#workingDays = toDate - fromDate
+		#workingDays
+	#end
+	
+	def getWorkedHours(userId,fromDate,toDate)
+		workedHours = TimeEntry.where("user_id = #{userId} and spent_on between '#{fromDate}' and '#{toDate}' and issue_id not in (#{getLeaveIssueIds})").sum(:hours)
+		workedHours
 	end
 
 end
