@@ -151,3 +151,142 @@ get 'wkattendance/getGroupMembers', :to => 'wkattendance#getGroupMembers'
    get 'wkpayroll/usrsettingsindex', :to => 'wkpayroll#usrsettingsindex'
    
    post 'wkpayroll/usrsettingsindex', :to => 'wkpayroll#usrsettingsindex'
+   
+   
+    #For Billing
+    get 'wkbilling/index', :to => 'wkbilling#index'	
+	
+	get 'wkaccount/index', :to => 'wkaccount#index'
+	
+	match 'wkaccount/index', :to => 'wkaccount#index', :via => [:get, :post]
+	
+	post 'wkaccount/update', :to => 'wkaccount#update'
+	
+	get 'wkaccount/edit', :to => 'wkaccount#edit'	
+	
+	delete 'wkaccount/destroy', :to => 'wkaccount#destroy'
+	
+	get 'wkcontracts/index', :to => 'wkcontracts#index'
+	
+	
+	get 'wkaccountproject/index', :to => 'wkaccountproject#index'
+	
+	get 'wktax/index', :to => 'wktax#index'	
+	
+	get 'wkinvoice/index', :to => 'wkinvoice#index'	
+	
+	post 'wktax/index', :to => 'wktax#index'
+	
+	get 'wkinvoice/invoiceedit', :to => 'wkinvoice#invoiceedit'
+	
+	get 'wkinvoice/getAccountProjIds', :to => 'wkinvoice#getAccountProjIds'
+    
+	get 'wktax/edit', :to => 'wktax#edit'
+	
+	post 'wktax/update', :to => 'wktax#update'	
+	
+	delete 'wktax/destroy', :to => 'wktax#destroy'
+	
+	get 'wkinvoice/edit', :to => 'wkinvoice#edit'	
+	
+	post 'wkinvoice/update', :to => 'wkinvoice#update'
+	
+	delete 'wkinvoice/destroy', :to => 'wkinvoice#destroy'
+	
+	get 'wkaccountproject/edit', :to => 'wkaccountproject#edit'
+	
+	delete 'wkaccountproject/destroy', :to => 'wkaccountproject#destroy'
+	
+	post 'wkaccountproject/update', :to => 'wkaccountproject#update'
+	
+	get 'wkcontract/index', :to => 'wkcontract#index'
+	
+	get 'wkcontract/edit', :to => 'wkcontract#edit'
+	
+	post 'wkcontract/update', :to => 'wkcontract#update'
+	
+	delete 'wkcontract/destroy', :to => 'wkcontract#destroy'
+	
+	get 'wkinvoice/invreport', :to => 'wkinvoice#invreport' 
+
+	# For Accounting
+	
+	get 'wkgltransaction/index', :to => 'wkgltransaction#index'	
+	
+	get 'wkgltransaction/edit', :to => 'wkgltransaction#edit'
+	
+	get 'wkgltransaction/update', :to => 'wkgltransaction#update'
+	
+	delete 'wkgltransaction/destroy', :to => 'wkgltransaction#destroy'
+	
+	get 'wkledger/index', :to => 'wkledger#index'
+	
+	get 'wkledger/edit', :to => 'wkledger#edit'
+	
+	get 'wkledger/update', :to => 'wkledger#update'
+	
+	delete 'wkledger/destroy', :to => 'wkledger#destroy'
+  
+	get 'wkaccounting/pl_rpt', :to => 'wkaccounting#pl_rpt'
+	
+	get 'wkaccounting/balance_sheet', :to => 'wkaccounting#balance_sheet'
+	
+	get 'wkbase/updateClockInOut', :to => 'wkbase#updateClockInOut'
+	
+	# For CRM
+	
+	get 'wkcrm/index', :to => 'wkcrm#index'
+	
+	get 'wklead/index', :to => 'wklead#index'
+	
+	post 'wklead/index', :to => 'wklead#index'
+	
+	post 'wklead/update', :to => 'wklead#update'
+	
+	get 'wklead/edit', :to => 'wklead#edit'	
+	
+	get 'wklead/show', :to => 'wklead#show'	
+	
+	get 'wklead/covert', :to => 'wklead#convert'
+	
+	delete 'wklead/destroy', :to => 'wklead#destroy'
+	
+	get 'wkopportunity/index', :to => 'wkopportunity#index'
+	
+	get 'wkcrmactivity/index', :to => 'wkcrmactivity#index'
+	
+	get 'wkcrmcontact/index', :to => 'wkcrmcontact#index'
+	
+    get 'wkcrmactivity/edit', :to => 'wkcrmactivity#edit'
+	
+	get 'wkcrm/getActRelatedIds', :to => 'wkcrm#getActRelatedIds'
+	
+	get 'wkcrmactivity/update', :to => 'wkcrmactivity#update'
+	
+	delete 'wkcrmactivity/destroy', :to => 'wkcrmactivity#destroy'
+	
+	get 'wkopportunity/edit', :to => 'wkopportunity#edit'
+	
+	get 'wkopportunity/update', :to => 'wkopportunity#update'
+
+    delete 'wkopportunity/destroy', :to => 'wkopportunity#destroy'
+
+	post 'wkopportunity/index', :to => 'wkopportunity#index'
+	
+	get 'wkcrmcontact/edit', :to => 'wkcrmcontact#edit'
+	
+	post 'wkcrmcontact/update', :to => 'wkcrmcontact#update'
+	
+	delete 'wkcrmcontact/destroy', :to => 'wkcrmcontact#destroy'
+	
+	get 'wkcrmenumeration/index', :to => 'wkcrmenumeration#index'
+	
+	get 'wkcrmenumeration/edit', :to => 'wkcrmenumeration#edit'
+	
+	post 'wkcrmenumeration/update', :to => 'wkcrmenumeration#update'
+	
+	delete 'wkcrmenumeration/destroy', :to => 'wkcrmenumeration#destroy' 
+	
+	get 'wkcrm/lead_conv_rpt', :to => 'wkcrm#lead_conv_rpt'
+	
+	get 'wkcrm/sales_act_rpt', :to => 'wkcrm#sales_act_rpt'
