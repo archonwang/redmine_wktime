@@ -1,0 +1,569 @@
+# Simplified Chinese strings go here for Rails i18n, based on https://demo1.adhisoftware.co.in/ , login with manager1 / manager1, member11 / member11, member12 / member12
+zh:
+  my_label: "My label"
+  label_wktime: Time
+  label_wk_project_dd_width: Project Dropdown Width
+  label_wk_issue_dd_width: Issue Dropdown Width
+  label_wk_actv_dd_width: Activity Dropdown Width
+  label_wk_restr_max_hour: Enforce Max hour per day
+  label_wk_max_hour_day: Max hour per day
+  label_wk_restr_min_hour: Enforce Min hour per day
+  label_wk_min_hour_day: Min hour per day
+  label_wk_page_width: 页面宽度
+  label_wk_page_height: 页面高度
+  label_wk_margin_top: Top Margin
+  label_wk_margin_bottom: Bottom Margin
+  label_wk_margin_left: Left Margin
+  label_wk_margin_right: Right Margin
+  label_wk_line_space: Line Space
+  label_wk_header_logo: Header Logo
+  label_wk_purchase_order: Purchase Order
+  label_wk_signature: 签名
+  label_wk_submitted_by: 提交人
+  label_wk_approved_by: 审批人
+  label_wk_enter_issue_id: Enter issue as ID
+  label_wk_work_time_header: Show work time header
+  label_wk_allow_blank_issue: Allow Blank Issue
+  label_wk_enter_comment_in_row: Enter Comment in row
+  label_wk_enter_cf_in_row: Enter Custom Field in row
+  label_wk_use_detail_popup: Use Detail Time Entry Popup
+  label_wk_approval_system: 审批制度
+  label_wk_use_approval_system: 使用审批制度
+  label_wk_auto_approve: "自动审批"
+  label_wk_submission_ack: Submission Acknowledgement Text
+  label_wk_reject_reason: 审批不通过原因
+  label_wk_account_groups: T&E Admin Groups
+
+  label_wk_enter_issue_As: Enter Issue As
+  label_wk_enter_issue_Description: Enter issue as Subject
+  label_wk_own_approve: "Approver Can Approve their own %{value}"
+  label_wk_reject_timesheet: Rejected Time Sheet
+  label_wk_reject_expense: Rejected expense
+  label_wk_submittedon: 提交时间
+  label_wk_rejectedby: 否决人
+  label_wk_rejectedon: 否决时间
+  label_wk_timesheet_reject: Your time sheet has been rejected
+  label_wk_expense_reject: Your expense has been rejected
+  label_wk_previous_template_week: Number of Weeks to consider for previous week template
+  label_wk_dropdown: Dropdown
+  label_wk_issueid: Issue ID
+  label_start: Start
+  label_end: End
+  label_remaining_hours: 剩余工时
+  label_warning_wktime_time_entry: "The timesheet for this period is locked, you cannot log time."  
+  label_warning_wktime_issue_tracker: "The tracker of this issue is not allowed for time logging."
+  
+  label_wk_first_day_of_week: 每周的第一天
+  label_wk_prev_week_tip: 上周
+  label_wk_next_week_tip: 下周
+  label_wkexpense: 开支
+  label_te: 工时 & 开支
+  label_ta: 工时 & 出勤
+  label_wk_allow_user_filter_tracker: 允许用户通过跟踪类型过滤
+  label_wk_filter_issue_tracker: 按跟踪类型过滤问题
+  label_wk_currency: 货币
+  label_wk_time: Weekly Time  
+ 
+  label_wkexpense_reports: 开支报告
+  label_spent_expense: Spent Expense
+  label_wk_submission_deadline: 提交截止日期
+  label_wk_nonsub_mail_subject: Non submission time notification
+  label_wk_nonsub_mail_notification: Send email for non submission
+  label_wk_nonsub_mail_message: Non submission email message
+  label_redmine_restart_warning: "Note: Any change to the below scheduler settings require redmine restart"
+  label_wk_minutes: 分钟  
+  label_wkexpense_entry_projects: Restrict Expense Entry to these projects
+  
+  label_wk_public_holiday: 国定假
+  label_wk_description: 描述 
+  label_wk_date_exists: 该日期已存在
+  label_wk_select_holiday: 请选择假期
+
+  button_new_wktime: New Timesheet
+  button_continue: Continue
+  button_add_row: 新增一行记录
+  button_new_wkexpense: New Expensesheet  
+  
+  button_wk_unsubmit: 取消提交
+  button_save_continue: 保存并继续
+  button_wk_approve: 批准
+  button_wk_reject: 否决
+  button_wk_unapprove: 撤销批准
+  chkbox_prev_tmpl: 沿用上周的模板
+  chkbox_closed_issues: 包括上周已关闭的问题
+  
+  error_te_save_failed: "无法保存 %{label}：%{error}"
+  error_wktime_save_nothing: 未保存。
+  error_not_permitted_save: 未取得权限用于保存数据。
+  
+  wk_status_new: 新建
+  wk_status_empty: Empty
+  wk_status_submitted: 已提交
+  wk_status_approved: 已批准
+  wk_status_rejected: 已否决
+  
+  text_start_of_week_confirmation: "Are you Sure? Status will be lost on the previously submitted %{value}"
+  text_wk_warning_min_hour: "You have not entered the Minimum hours (%{value}) required per day"
+  text_wk_warning_max_hour: "You have entered hours above Maximum hours (%{value}) allowed per day"
+  field_amount: Amount
+  field_status_modified_by: "最近修改人"
+  
+
+  label_wk_allow_filter_issue: Allow User filtering to My Issues
+  label_wk_no_user_current_project: no users in selected project
+ 
+  permission_approve_time_entries: Approve time logs
+  field_currency: 货币
+  error_project_issue_associate: Cannot be deleted because time/expense entries associated
+  error_time_entry_delete: "Cannot be deleted. The timesheet with this entry is locked"
+  
+  label_user_filters: 用户过滤器
+  label_submitted_by: 提交人
+  label_approved_by:  审批人
+  
+  label_wk_reminder: 发送提醒
+  label_wk_reminder_notes: 提醒内容
+  label_wk_sub_reminder: 发送提交电子邮件提醒
+  label_wk_appr_reminder: 发送审批电子邮件提醒
+  wk_submission_reminder: "%{value} 提交提醒"
+  wk_sub_reminder_text: "这是提交您的 ％{value} 提醒。"
+  wk_approval_reminder: "%{value} 审批提醒"
+  wk_appr_reminder_text: "这是用于审批 %{value}s 的提醒。"
+  wk_sub_confirmation_text: "%{value} submission reminder sent to:"
+  wk_appr_confirmation_text: "%{value} approval reminder sent to:"
+  label_wk_timesheet: 时间表
+  label_wk_expensesheet: 开支表
+  text_wk_no_reminder: 暂无需要发送的提醒
+  
+  
+  label_wk_attendance: 电子考勤
+  label_wk_break_time: 休息时间
+  label_wk_enable_clock_in_out: 启用签入/签出
+  label_wk_sick_leave_accrual: 病假应计
+  label_wk_paid_leave_accrual: 带薪假期
+  label_wk_leave_accrual_after: Accrual after
+  label_wk_select_break_time: 请选择休息时间
+  label_hours_per_month: 小时/月
+  label_wk_sick_leave: 病假
+  label_wk_holiday: 假日
+  label_wk_paid_leave: 带薪假期
+  label_wk_leave: 假期
+  label_wk_leave_issue: Leave issue
+  label_wk_leave_accrual: Accrual
+  label_wk_leave_accrual_on: Accrual on
+  label_wk_attendance_start_date: 考勤开始日期
+  label_clock_in: 签入
+  label_clock_out: 签出
+  label_wk_leave_exists: 该假期信息已存在。
+  wk_field_balance: Balance
+  wk_field_used: 已用
+  wk_field_remaining: 剩余
+  label_wk_leave_short_name: Short name
+  label_difference: Differences
+  label_total_hours:  总计工时
+  label_wk_attn_join_date:  入职日期
+  label_wk_attn_termination_date:  离职日期
+  label_wk_attn_user_dob:  出生日期
+  label_wk_designation:  职务
+  label_employee_id:  员工工号
+  label_leave_beginning_of_mnth:  月初假期结算
+  label_leave_during_mnth:  本月内可用假期
+  label_daily_workdone_inclede_ot:  每日工时包括加班（如果有的话）
+  label_total_hours_ot:  Total OT hours
+  label_total_hours_during_mnth:  月度总工时
+  label_total_no_of_maternity_leave:  月度总休假时长
+  label_attn_sl_no:  Sl. No.
+  wk_label_opening: Opening
+  wk_label_closing: Closing
+  label_wk_default_work_time: 默认每日工时
+  label_wk_attn_for: For
+  label_wk_form_q: FORM-Q
+  label_wk_register_for_shops: REGISTER OF EMPLOYMENT FOR SHOPS AND ESTABLISHMENTS
+  label_wk_name_address: 机构名称及地址
+  label_date_of_entry_into_service: Date of entry into service
+  label_hours_note: "Note: Please enter time in 24 hours format(HH:MM)."
+  label_no_leaves_configured : 未配置请假信息。
+  label_max_min_hours_day_msg : Min hours is greater than Max hours.
+  
+  label_wk_restr_max_hour_week: 执行每周最大工时数
+  label_wk_max_hour_week: 每周最大工时
+  label_wk_restr_min_hour_week: 执行每周最小工时
+  label_wk_min_hour_week: 每周最小工时
+  text_wk_warning_min_hour_week: "输入的工时数少于设定的每周最少工时数(%{value})。"
+  text_wk_warning_max_hour_week: "输入的工时数超过设定的每周最大工时数(%{value})。"
+  label_enable_expense_module: 启用【开支】模块 
+  label_enable_attendance_module: 启用【考勤】模块
+  label_enable_report_module: 启用【报表】模块
+  label_group_non_submission_email: Target group of non submission email
+  
+  error_expense_entry_delete: "不能删除！含此条目的开支表已锁定。"
+  button_populate_leave: "Run Period End Process"
+  text_are_you_sure_want_to_run: "Are you sure you want to run this process ?"
+  label_clock: 签入/签出
+  label_hours: Hours
+  label_import_attendance: 导入考勤
+  label_path: 导入文件路径
+  label_auto_import: 自动导入
+  label_auto_import_time: Auto Import Every
+  label_start_time: 开始时间
+  label_end_time: 结束时间
+  label_user_id: Userid
+  label_available_fields: 可用字段
+  label_fields_in_file: Fields in File
+  label_import_file_headers: 文件头信息
+  error_no_record_to_import: 未导入考勤记录
+  warning_fields_in_file_not_configured: 插件考勤设置中未配置文件对应的字段。
+  
+  label_payroll: 薪酬
+  label_basic: 基本工资
+  label_deduction: 扣除
+  label_gross: 合计
+  label_net: 净到手金额
+  label_salarydate: 发薪日  
+  label_allowances: 津贴
+  label_frequency: 频率
+  label_pay_period: 付款期
+  label_salary_type: 薪酬类型
+  label_monthly: Monthly
+  label_quartly: Quarterly
+  label_semi_annually: Semi Annually
+  label_annually: Annually
+  label_salaried: Salaried
+  label_weekly: 每一周
+  label_bi_weekly: 每两周
+  label_hourly: 每小时
+  label_dependent: Depends on
+  label_basic_name: 该名称已存在。
+  label_name_errormsg: 请输入名称。
+  label_date_errormsg: 请输入开始日期
+  label_auto_generate_salary: 自动计算薪酬
+  label_generate_salary: 计算薪酬
+  label_pay_day: 支薪日
+  label_salary_detail: 工资明细
+  label_loss_of_pay: Loss Of Pay
+  label_financial_year_start: 财政年度始于
+  label_salary_detail: 工资明细
+  label_wk_payslip: Pay Slip
+  label_period: Period
+  label_emp_name: 员工姓名
+  label_ytd: 年初至今
+  label_earning: 收入
+  label_user_settings: 用户设置
+  label_total_earning: 收入总计
+  label_total_deduction: 扣除总计
+  label_net_earning: 净收入
+  label_wk_form_r: FORM-R
+  label_register_wages: 薪酬登记册
+  label_wages_rule: See Sub Rule(5) of rule 11 of Tamilnadu Shops and Establishments Rule, 1948
+  label_wages_period: Wages Period Month
+  label_company_name: 公司名称
+  label_address: 地址
+  label_enable_payroll_module: 启用【薪酬】模块
+  label_gender: 性别  
+  label_ytd_description: YTD - 年初从 %{start} 到 %{end}
+  label_component: 组件
+  label_factor: 因子
+  label_generate: 生成
+  label_payroll_report: 薪酬报告
+  label_factor_errormsg: 请输入因子
+  
+  label_wk_billing: 账单管理
+  label_enable_billing_module: 启用【账单】模块
+  label_accounts: 账户
+  label_contracts: 合同
+  label_acc_projects: Billable Projects
+  label_invoice: 票据
+  label_tax: 税费  
+  label_project_name: 项目名
+  label_account_name: 账户名
+  label_invoice_date: 开票日期
+  label_end_date: 结束日期
+  label_user_billing_rate: User Billing Rate
+  label_user_billing_currency: User Billing Currency
+  label_project_billing_rate: Project Billing Rate
+  label_project_billing_currency: Project Billing Currency
+  label_billing_id: Time Entry Billing Id
+  label_generate_invoice_from: Generate invoice from
+  label_auto_generate_invoice: Auto generate invoice
+  label_invoice_no_prefix: Invoice number prefix
+  label_taxname: 税号
+  label_rate: Rate
+  label_tax_detail: 税务明细
+  label_new_tax: 添加税项
+  label_invoice_name: 描述
+  label_item_type: 类型
+  label_quantity: 数量
+  label_invoice_number: 票据编号
+  label_invoice_items: 票据项
+  label_billing_type: Billing Type
+  label_apply_tax: Apply Tax
+  label_itemized_bill: Itemized Bill
+  label_invoice_items: Invoice Items
+  label_new_tax: New Tax
+  label_new_account: 添加账户
+  label_edit_account: 编辑账户
+  label_account_type: 账户类型
+  label_account_address: 地址
+  label_account_address1: 地址1
+  label_account_address2: 地址2
+  label_work_phone: 工作电话
+  label_email: Email
+  label_country: 所在国家
+  label_city : 城市 
+  label_account_detail: 账户详情
+  label_account_information: 账户信息
+  label_address_information: 地址信息
+  label_state : State 
+  label_fax : 传真
+  label_mobile : 手机
+  label_home_phone: 家庭电话
+  label_pin: Pin
+  label_invoice_generate_period: Invoice generate period
+  label_invoice_generation_day: Invoice generation day
+  label_time_material: Time and Material
+  label_fixed_cost: 固定成本
+  label_milestone: 里程碑
+  label_date: 日期
+  label_applicable_taxes: Applicable Taxes
+  label_billing_schedules: Billing Schedules
+  label_new_billing_project: New Billing Project
+  label_billing_groups: Billing Admin Groups
+  label_start_date: 开始日期
+  label_end_date: 结束日期
+  label_contract_name: 合同名称
+  label_file_name: 文件名称
+  label_attachment: 附件
+  label_edit_contract: 编辑合同信息
+  label_project: 项目 
+  label_account: 账户 
+  label_contract_number: 合同编号
+  label_contract_no_prefix: 合同编号前缀
+  label_new_contract: 添加合同
+  label_contract_information: 合同信息
+  label_pin: Pin Code
+  label_invoice_components: Invoice Components
+  label_import_export_code: Import Export Code
+  label_satellite_station: Satellite Station
+  label_destination: Destination
+  label_payment_terms: 付款条件
+  label_bankers_reference: Banker's Reference
+  label_name_address_of: Name & Address of the %{value}
+  label_bank_code_no: Bank code No
+  label_amount_in_words: Amount in Words
+  label_man_hour_day_month: Man Hour / Man Day / Man Month / Project
+  label_desc_of_sftwr_services: Description of the Software Services
+  label_cntrt_purchase_work_order: Contract / Purchase Order / Work Order / Agreement Date & Reference
+  label_bank: Bank
+  label_customer: Customer
+  label_supplier: Supplier
+  label_export_invoice: 打印票据
+  label_authorized_signatory: Authorized Signatory
+  label_place: Place
+  label_erpmine: ERPmine
+  label_trillion: 兆
+  label_billion: 十亿
+  label_million: 百万
+  label_thousand: 千
+  label_hundred: 百
+  label_ninety: 九十
+  label_eighty: 八十
+  label_seventy: 七十
+  label_sixty: 六十
+  label_fifty: 五十
+  label_forty: 四十
+  label_thirty: 三十
+  label_twenty: 二十
+  label_nineteen: 十九
+  label_eighteen: 十八
+  label_seventeen: 十七
+  label_sixteen: 十六
+  label_fifteen: 十五
+  label_fourteen: 十四
+  label_thirteen: 十三
+  label_twelve: 十二
+  label_eleven: 十一
+  label_ten: 十
+  label_nine: 九
+  label_eight: 八
+  label_seven: 七
+  label_six: 六
+  label_five: 五
+  label_four: 四
+  label_three: 三
+  label_two: 二
+  label_one: 一
+  label_bill_date: 出账日期
+  label_account_billing: Account Billing
+  label_sub_total: Sub total
+  label_round_off: 四舍五入
+  label_grand_total: Grand Total
+  
+  label_accounting: Accounting
+  label_accounting_group: Accounting User Group
+  label_enable_accounting_module: Enable Accounting Module
+  label_transaction: Transaction
+  label_ledger: Ledger
+  label_accounting_admin: Accounting Admin Group
+  label_bank_ac: Bank Accounts
+  label_bank_occ_ac: Bank OCC A/c
+  label_bank_od_ac: Bank OD A/c
+  label_branch_division: Branch / Division
+  label_capital_account: Capital Account
+  label_cash_in_hand: Cash-in-hand
+  label_current_assets: Current Assets
+  label_current_liabilities: Current Liabilities
+  label_deposits: Deposits(Asset)
+  label_direct_expenses: Direct Expenses
+  label_direct_incomes: Direct Incomes
+  label_duties_taxes: Duties & Taxes
+  label_fixed_assets: Fixed Assets
+  label_indirect_expenses: Indirect Expenses
+  label_indirect_incomes: Indirect Incomes
+  label_investments: Investments
+  label_loans_advances: Loans & Advances (Asset)
+  label_loans: Loans (Liability)
+  label_misc_expenses: Misc. Expenses (ASSET)
+  label_provisions: Provisions
+  label_purchase_accounts: Purchase Accounts
+  label_reserves_surplus: Reserves & Surplus
+  label_retained_earnings: Retained Earnings
+  label_sales_accounts: Sales Accounts
+  label_secured_loans: Secured Loans
+  label_stock_in_hand: Stock-in-hand
+  label_sundry_creditors: Sundry Creditors
+  label_sundry_debtors: Sundry Debtors
+  label_suspense_ac: Suspense A/c
+  label_unsecured_loans: Unsecured Loans
+  label_profit_loss_account: Profit & Loss A/c
+  label_particulars: Particulars
+  label_trading_account: Trading Account
+  label_profit: Profit
+  label_cost_of_sales: Cost of sales
+  label_statement: Statement
+  label_income: Income
+  label_txn_contra: Contra
+  label_txn_payment: Payment
+  label_txn_receipt: 收据
+  label_txn_journal: 日志
+  label_txn_sales: Sales
+  label_txn_credit_note: Credit Note
+  label_txn_purchase: 采购
+  label_txn_debit_note: Debit Note
+  label_type: 类型
+  label_particulars: Particulars
+  label_debit: 借方
+  label_credit: 信用
+  label_date: Date
+  label_balance_sheet: Balance Sheet
+  label_as_at: As at
+  label_of_funds: "%{value} of Funds"
+  label_application: Application
+  label_current: 当前
+  label_original: Original
+  label_auto_post_gl: Auto post to General/Ledger
+  error_ledger_trans_associate: Cannot be deleted because transactions associated
+  label_unable_delete: Unable to delete.
+  label_row_valid_msg: Please fill the added rows.
+  error_system_ledger_cant_delete: System ledger Cannot be delete
+  error_trans_msg: Could not save transaction. Please configure auto post to general ledger settings
+  label_salary: 薪酬
+  error_contra_msg: Contra should contain bank and cash ledgers only.
+  error_payment_msg: Payment should have bank or cash as Credit.
+  error_receipt_msg: Receipt should have bank or cash as Debit.   
+  error_purchase_msg: Purchase should have sundry creditors/debitors, cash and bank as credit and purchase group as debit.
+  error_sales_msg: Sales should have sundry creditors/debitors, cash and bank as debit and sales group as credit.
+  error_cn_msg: Credit note should have sundry creditors/debitors, cash and bank as credit and should not have cash and bank as debit.
+  error_dn_msg: Debit note should have sundry creditors/debitors, cash and bank as debit and should not have cash and bank as credit.
+  label_less_transferred: "Less: Transferred"
+  label_trans_row_validmsg: Transaction contain minimum two rows.
+  label_trans_total_validmsg: Transaction debit and credit does not match.
+  
+  label_crm: CRM
+  label_lead_plural: Leads
+  label_opportunity_plural: 机会
+  label_activity_plural: 活动
+  label_contact_plural: 合同
+  label_new_item: "新建 %{value}"
+  label_edit_item: "编辑 %{value}"
+  label_lead: Lead
+  label_content_information: "%{value} 信息"
+  label_website: 站点
+  label_department: 部门
+  label_assigned: 已指派
+  label_in_process: 处理中
+  label_converted: 已转换
+  label_recycled: 已回收
+  label_dead: Dead
+  label_lead_source: Lead Source
+  label_opportunity_amount: 机会数量
+  label_referred_by: 推荐人
+  label_more: 更多
+  label_subject: 主题
+  label_inbound: Inbound
+  label_outbound: Outbound
+  label_planned: Planned
+  label_held: 帮助
+  label_not_held: Not held
+  label_start_date_time: "Start Date & Time"
+  label_related_to: Related to
+  label_contact: Contact
+  label_task: 任务
+  label_opportunity: 机会
+  label_duration: Duration
+  label_end_date_time: "End Date & Time"
+  label_priority: 优先级
+  label_medium: Medium
+  label_call: Call
+  label_meeting: 会议
+  label_location: 会址
+  label_not_started: Not Started
+  label_completed: Completed
+  label_pending_input: Pending Input
+  label_deferred: Deferred
+  button_convert_lead: Convert Lead
+  label_expected: Expected
+  label_business: Business
+  label_existing: Existing
+  label_stage: Stage
+  label_prospecting: Prospecting
+  label_analysis: 分析
+  label_qualification: Qualification
+  label_needs_analysis: Needs 
+  label_value_proposition: Value Proposition
+  label_decision_makers: Id.Decision Makers
+  label_perception: Perception
+  label_proposal_quote: Proposal/Price Quote
+  label_negotiation: Negotiation/Review
+  label_lost: Lost
+  label_won: Won
+  label_cold: Cold
+  label_self: Self
+  label_generated: Generated
+  label_employee: 雇员
+  label_partner: 合作伙伴
+  label_direct: Direct
+  label_conference: 会议
+  label_trade: 贸易
+  label_word_of_mouth: Word of Mouth
+  label_other: 其他
+  label_probability: 可能性
+  label_step: Step
+  label_mr: Mr.
+  label_ms: Ms.
+  label_mrs: Mrs.
+  label_dr: Dr.
+  label_prof: Prof.
+  text_are_you_sure_want_to: "Are you sure want to %{value}?"
+  notice_successful_convert: Successful conversion.
+  label_enable_crm_module: 启用CRM模块
+  label_crm_user_group: CRM用户组
+  label_crm_admin_group: CRM管理员组
+  label_position: 位置
+  label_lead_conversion: Lead Conversion
+  label_sales_activity: 销售活动
+  label_sales_cycle: 销售周期
+  label_conversion_rate: 转化率
+  label_completed_date_time: "Completed Date & Time"
+  label_completion_time: Completion Time
+  label_days: 天
+  label_average: Average
