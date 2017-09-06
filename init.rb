@@ -4,7 +4,9 @@ require 'wkpatch'
 require 'report_params'
 require_dependency '../lib/redmine/menu_manager'
 require 'fileutils'
-
+require 'timelogcontroller_patch'
+require 'time_report_patch'
+require_dependency 'timelog_helper_patch'
 
 # redmine only differs between project_menu and application_menu! but we want to display the
 # time_tracker submenu only if the plugin specific controllers are called
@@ -23,7 +25,13 @@ module Redmine::MenuManager::MenuHelper
     if project && !project.new_record?
       :project_menu
     else
-      if %w(wktime wkexpense wkattendance wkreport wkpayroll  wkinvoice wkaccount wkcontract wkaccountproject wktax wkgltransaction wkledger wklead wkopportunity wkcrmactivity wkcrmcontact wkcrmenumeration).include? params[:controller]
+	  controllerArr = ["wktime", "wkexpense", "wkattendance", "wkreport", "wkpayroll",  "wkinvoice", "wkcrmaccount", "wkcontract", "wkaccountproject", "wktax", "wkgltransaction", "wkledger", "wklead", "wkopportunity", "wkcrmactivity", "wkcrmcontact", "wkcrmenumeration", "wkpayment", "wkexchangerate","wkpurchase","wkrfq","wkquote","wkpurchaseorder","wksupplierinvoice","wksupplierpayment","wksupplieraccount","wksuppliercontact", "wklocation", "wkproduct", "wkbrand", "wkattributegroup" , "wkproductitem", "wkshipment", "wkunitofmeasurement"]
+	  externalMenus = call_hook :external_erpmine_menus
+	   externalMenus = externalMenus.split(' ')
+	  unless externalMenus.blank?
+		controllerArr = controllerArr + externalMenus
+	  end
+      if controllerArr.include? params[:controller]
         :wktime_menu
       else
         :application_menu
@@ -118,59 +126,10 @@ module IssuesControllerPatch
   end
  end
 end
-	
-module TimelogControllerPatch
-	def self.included(base)
-		base.send(:include)
-		
-		base.class_eval do
-			def destroy
-				wktime_helper = Object.new.extend(WktimeHelper)
-				errMsg = ""
-				destroyed = TimeEntry.transaction do
-				@time_entries.each do |t|
-					status = wktime_helper.getTimeEntryStatus(t.spent_on, t.user_id)	
-					if !status.blank? && ('a' == status || 's' == status || 'l' == status)					
-						 errMsg = "#{l(:error_time_entry_delete)}"
-					end
-					if errMsg.blank?
-						unless (t.destroy && t.destroyed?)  
-						  raise ActiveRecord::Rollback
-						end
-					end
-				  end
-				end
-
-				respond_to do |format|
-				  format.html {
-					if errMsg.blank?
-						if destroyed
-						  flash[:notice] = l(:notice_successful_delete)
-						else
-						  flash[:error] = l(:notice_unable_delete_time_entry)
-						end
-					else
-						flash[:error] = errMsg
-					end
-					redirect_back_or_default project_time_entries_path(@projects.first)
-				  }
-				  format.api  {
-					if destroyed
-					  render_api_ok
-					else
-					  render_validation_errors(@time_entries)
-					end
-				  }
-				end
-			end
-		end
-	end
-end
-
 
 module SettingsControllerPatch
 	def self.included(base)
-		base.send(:include)
+		#base.send(:include)
 		
 		base.class_eval do
 			def plugin
@@ -235,8 +194,8 @@ SettingsController.send(:include, SettingsControllerPatch)
 Redmine::Plugin.register :redmine_wktime do
   name 'ERPmine'
   author 'Adhi Software Pvt Ltd'
-  description 'This plugin is for entering Time & Attendance'
-  version '2.7'
+  description 'ERPmine is an ERP for Service Industries. It has the following modules: Time & Expense, Attendance, Payroll, CRM, Billing, Accounting, Purchasing and Inventory'
+  version '3.0'
   url 'http://www.redmine.org/plugins/wk-time'
   author_url 'http://www.adhisoftware.co.in/'
   
@@ -290,6 +249,7 @@ Redmine::Plugin.register :redmine_wktime do
 			 'wktime_max_hour_week' => '0',
 			 'wktime_restr_min_hour_week' => '0',
 			 'wktime_min_hour_week' => '0',
+			 'wktime_enable_time_module' => '1',
 			 'wktime_enable_expense_module' => '1',
 			 'wktime_enable_report_module' => '1',
 			 'wktime_enable_attendance_module' => '1',
@@ -312,27 +272,35 @@ Redmine::Plugin.register :redmine_wktime do
 			 'wktime_enable_accounting_module' => '0',
 			 'wktime_accounting_group' => '0',
 			 'wktime_accounting_admin' => '0',
-			 'wktime_accounting_admin' => '0',
 			 'wktime_crm_group' => '0',
 			 'wktime_crm_admin' => '0',
-			 'wktime_enable_crm_module' => '0'
+			 'wktime_minimum_working_days_for_accrual' => '11',
+			 'wktime_enable_crm_module' => '0',
+			 'wktime_enable_pur_module' => '0',
+			 'wktime_pur_group' => '0',
+			 'wktime_pur_admin' => '0',
+			 'wktime_enable_inventory_module' => '0',
+			 'wktime_inventory_group' => '0',
+			 'wktime_inventory_admin' => '0'
   })  
- 
-  menu :top_menu, :wkTime, { :controller => 'wktime', :action => 'index' }, :caption => :label_erpmine, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission } 	
+	menu :top_menu, :wkTime, { :controller => 'wktime', :action => 'index' }, :caption => :label_erpmine, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission } 
+  	
   project_module :time_tracking do
 	permission :approve_time_entries,  {:wktime => [:update]}, :require => :member	
   end
   
   
   Redmine::MenuManager.map :wktime_menu do |menu|
-	  menu.push :wktime, { :controller => 'wktime', :action => 'index' }, :caption => :label_te, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission }
-	  menu.push :wkattendance, { :controller => 'wkattendance', :action => 'index' }, :caption => :label_wk_attendance, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission && Object.new.extend(WktimeHelper).showAttendance}
-	  menu.push :wkpayroll, { :controller => 'wkpayroll', :action => 'index' }, :caption => :label_payroll, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission && Object.new.extend(WktimeHelper).showPayroll }
+	  menu.push :wktime, { :controller => 'wktime', :action => 'index' }, :caption => :label_hr, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission && Object.new.extend(WktimeHelper).showTimeExpense }
+	  #menu.push :wkattendance, { :controller => 'wkattendance', :action => 'index' }, :caption => :report_attendance, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission && Object.new.extend(WktimeHelper).showAttendance}
+	  # menu.push :wkpayroll, { :controller => 'wkpayroll', :action => 'index' }, :caption => :label_payroll, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission && Object.new.extend(WktimeHelper).showPayroll }
 	  menu.push :wklead, { :controller => 'wklead', :action => 'index' }, :caption => :label_crm, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission && Object.new.extend(WktimeHelper).showCRMModule }
 	  menu.push :wkinvoice, { :controller => 'wkinvoice', :action => 'index' }, :caption => :label_wk_billing, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission && Object.new.extend(WktimeHelper).showBilling }
 	  menu.push :wkgltransaction, { :controller => 'wkgltransaction', :action => 'index' }, :caption => :label_accounting, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission && Object.new.extend(WktimeHelper).showAccounting }
+	  menu.push :wkrfq, { :controller => 'wkrfq', :action => 'index' }, :caption => :label_purchasing, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission && Object.new.extend(WktimeHelper).showPurchase }
+	  menu.push :wkproduct, { :controller => 'wkproduct', :action => 'index' }, :caption => :label_inventory, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission && Object.new.extend(WktimeHelper).showInventory }
 	  menu.push :wkreport, { :controller => 'wkreport', :action => 'index' }, :caption => :label_report_plural, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission && Object.new.extend(WktimeHelper).showReports}	
-	  menu.push :wkcrmenumeration, { :controller => 'wkcrmenumeration', :action => 'index' }, :caption => :label_settings, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission && User.current.admin? }
+	  menu.push :wkcrmenumeration, { :controller => 'wkcrmenumeration', :action => 'index' }, :caption => :label_settings, :if => Proc.new { Object.new.extend(WktimeHelper).checkViewPermission && Object.new.extend(WktimeHelper).hasSettingPerm } #User.current.admin?
 	end	
 
 end
@@ -482,10 +450,10 @@ Rails.configuration.to_prepare do
 					if runJob
 						Rails.logger.info "==========Invoice job - Started=========="
 						invoiceHelper = Object.new.extend(WkinvoiceHelper)
-						allAccounts = WkAccount.all
+						allAccProjets = WkAccountProject.all
 						errorMsg = nil
-						allAccounts.each do |account|
-							errorMsg = invoiceHelper.generateInvoices(account.id, nil, currentMonthStart, invoicePeriod)
+						allAccProjets.each do |accProj|
+							errorMsg = invoiceHelper.generateInvoices(accProj, nil, currentMonthStart, invoicePeriod)#account.id
 						end
 						if errorMsg.blank?
 							Rails.logger.info "===== Invoice generated Successfully ====="
@@ -544,13 +512,13 @@ class WktimeHook < Redmine::Hook::ViewListener
 	end
 	
 	# Added expense report link in redmine core 'projects/show.html' using hook
-	def view_projects_show_sidebar_bottom(context={})
+	def view_projects_show_left(context={})
 		if !context[:project].blank?
 			wktime_helper = Object.new.extend(WktimeHelper)		
 			host_with_subdir = wktime_helper.getHostAndDir(context[:request])	
 			project_ids = Setting.plugin_redmine_wktime['wkexpense_projects']		
 			if project_ids.blank? || (!project_ids.blank? && (project_ids == [""] || project_ids.include?("#{context[:project].id}"))) && User.current.allowed_to?(:view_time_entries, context[:project])
-				"#{link_to(l(:label_wkexpense_reports), url_for(:controller => 'wkexpense', :action => 'reportdetail', :project_id => context[:project], :host => host_with_subdir, :only_path => true))}"
+				"<p style='float:left; padding-left:180px;  margin-top:-45px;'>| #{link_to(l(:label_wkexpense_reports), url_for(:controller => 'wkexpense', :action => 'reportdetail', :project_id => context[:project], :host => host_with_subdir, :only_path => true))}</p>"
 			end
 		end
 	end
@@ -567,6 +535,7 @@ class WktimeHook < Redmine::Hook::ViewListener
 		end
 	end
 	render_on :view_layouts_base_content, :partial => 'wktime/attendance_widget'	
+	render_on :view_timelog_edit_form_bottom, :partial => 'wklogmaterial/log_material'
 end
 
 

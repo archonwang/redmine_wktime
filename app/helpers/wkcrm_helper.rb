@@ -160,7 +160,7 @@ include WkinvoiceHelper
 		salType
 	end
 	
-	def relatedValues(relatedType, parentId)
+	def relatedValues(relatedType, parentId, type)
 		relatedArr = Array.new
 		relatedId = nil
 		if relatedType == "WkOpportunity"
@@ -168,9 +168,9 @@ include WkinvoiceHelper
 		elsif relatedType == "WkLead"
 			relatedId = WkLead.includes(:contact).where("wk_leads.status != ? OR wk_leads.id = ?",'C', parentId).order("wk_crm_contacts.first_name, wk_crm_contacts.last_name")
 		elsif relatedType == "WkCrmContact"
-			relatedId = WkCrmContact.includes(:lead).where(wk_leads: { status: ['C', nil] }).order(:first_name, :last_name)
+			relatedId = WkCrmContact.includes(:lead).where(wk_leads: { status: ['C', nil] }).where(:contact_type => type).order(:first_name, :last_name)
 		else
-			relatedId = WkAccount.where(:account_type => 'A').order(:name)
+			relatedId = WkAccount.where(:account_type => type).order(:name)
 		end
 		if !relatedId.blank?
 			relatedId.each do | entry|				
@@ -187,13 +187,15 @@ include WkinvoiceHelper
 		relatedArr
 	end
 	
-	def getAccordionSection(entity)
+	def getAccordionSection(entity, curObj)
 		accSections = ['wkcrmactivity']
 		case entity
 		when 'WkAccount'
-			accSections = ['wkcrmactivity', 'wkcrmcontact', 'wkopportunity']
+			accSections = ['wkcrmactivity', 'wkcrmcontact'] #, 'wkopportunity'
+			accSections << 'wkopportunity' unless curObj.account_type == 'S'
 		when 'WkCrmContact'
-			accSections = ['wkcrmactivity', 'wkopportunity']
+			accSections = ['wkcrmactivity'] # , 'wkopportunity'
+			accSections << 'wkopportunity' unless curObj.contact_type == 'SC'
 		else
 			accSections = ['wkcrmactivity']
 		end
@@ -219,5 +221,18 @@ include WkinvoiceHelper
 	
 	def getToDateTime(dateVal)
 		date_for_user_time_zone(dateVal.year, dateVal.month, dateVal.day).end_of_day
+	end
+	
+	# This method returns billable project parents as hash
+	# Hash has parent_type as key and parent_id as value
+	def getProjectBillers(projectId)
+		accProjects = WkAccountProject.where(project_id: projectId).order(:parent_type, :parent_id)
+		parentIdHash = Hash.new
+		parentIdHash['WkAccount'] = []
+		parentIdHash['WkCrmContact'] = []
+		accProjects.each do |entry|
+			parentIdHash[entry.parent_type] = parentIdHash[entry.parent_type] << entry.parent_id
+		end
+		parentIdHash
 	end
 end

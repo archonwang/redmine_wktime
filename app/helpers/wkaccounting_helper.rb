@@ -56,7 +56,7 @@ include WktimeHelper
 	end
 	
 	def getSectionHeader(type)
-		getLedgerTypeHash[type].blank? ? l(:label_profit_loss_account) : getLedgerTypeHash[type]
+		getLedgerTypeHash[type].blank? ? l(:report_profit_loss) : getLedgerTypeHash[type]
 	end
 	
 	def getLedgerTypeGrpHash
@@ -220,6 +220,10 @@ include WktimeHelper
 		transtype = nil
 		if (crLedgerType == 'C' || crLedgerType == 'BA') && (dbLedgerType == 'C' || dbLedgerType == 'BA')
 			transtype = 'C'
+		elsif (dbLedgerType == 'PA')
+			transtype = 'PR'
+		elsif (crLedgerType == 'SA')
+			transtype = 'S'
 		elsif (crLedgerType == 'C' || crLedgerType == 'BA')
 			transtype = 'P'
 		elsif (dbLedgerType == 'C' || dbLedgerType == 'BA')

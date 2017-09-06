@@ -580,8 +580,9 @@ end
 	
 	def getTimeEntryStatus(spent_on,user_id)
 		#result = Wktime.find(:all, :conditions => [ 'begin_date = ? AND user_id = ?', getStartDay(spent_on), user_id])	
-		start_day = getStartDay(spent_on)		
-		locked = call_hook(:controller_check_locked,{ :startdate => start_day})
+		start_day = getStartDay(spent_on)	
+		locked  = isLocked(start_day)
+		#locked = call_hook(:controller_check_locked,{ :startdate => start_day})
 		locked  = locked.blank? ? '' : (locked.is_a?(Array) ? (locked[0].blank? ? '': locked[0].to_s) : locked.to_s) 
 		locked = ( !locked.blank? && to_boolean(locked))
 		if locked
@@ -594,46 +595,77 @@ end
 	end
 	
 	def time_expense_tabs
-		if params[:controller] == "wktime" || params[:controller] == "wkexpense"
+		if params[:controller] == "wktime" || params[:controller] == "wkexpense" || params[:controller] == "wkattendance" || params[:controller] == "wkpayroll"
 			tabs = [
 				{:name => 'wktime', :partial => 'wktime/tab_content', :label => :label_wktime},
-				{:name => 'wkexpense', :partial => 'wktime/tab_content', :label => :label_wkexpense}
-			   ]
-		elsif params[:controller] == "wkattendance"
-			tabs = [
+				{:name => 'wkexpense', :partial => 'wktime/tab_content', :label => :label_wkexpense},
 				{:name => 'leave', :partial => 'wktime/tab_content', :label => :label_wk_leave},
-				{:name => 'clock', :partial => 'wktime/tab_content', :label => :label_clock}
-			   ]
-		elsif params[:controller] == "wkpayroll"
-			tabs = [
+				{:name => 'clock', :partial => 'wktime/tab_content', :label => :label_clock},
 				{:name => 'payroll', :partial => 'wktime/tab_content', :label => :label_payroll},
 				{:name => 'usersettings', :partial => 'wktime/tab_content', :label => :label_user_settings}
 			   ]
-		elsif params[:controller] == "wklead" || params[:controller] == "wkaccount" || params[:controller] == "wkopportunity" || params[:controller] == "wkcrmactivity" || params[:controller] == "wkcrmcontact"
+		# elsif params[:controller] == "wkattendance"
+			# tabs = [
+				# {:name => 'leave', :partial => 'wktime/tab_content', :label => :label_wk_leave},
+				# {:name => 'clock', :partial => 'wktime/tab_content', :label => :label_clock}
+			   # ]
+		# elsif params[:controller] == "wkpayroll"
+			# tabs = [
+				# {:name => 'payroll', :partial => 'wktime/tab_content', :label => :label_payroll},
+				# {:name => 'usersettings', :partial => 'wktime/tab_content', :label => :label_user_settings}
+			   # ]
+		elsif params[:controller] == "wklead" || params[:controller] == "wkcrmaccount" || params[:controller] == "wkopportunity" || params[:controller] == "wkcrmactivity" || params[:controller] == "wkcrmcontact"
 			tabs = [
 				{:name => 'wklead', :partial => 'wktime/tab_content', :label => :label_lead_plural},
-				{:name => 'wkaccount', :partial => 'wktime/tab_content', :label => :label_accounts},
+				{:name => 'wkcrmaccount', :partial => 'wktime/tab_content', :label => :label_accounts},
 				{:name => 'wkopportunity', :partial => 'wktime/tab_content', :label => :label_opportunity_plural},
 				{:name => 'wkcrmactivity', :partial => 'wktime/tab_content', :label => :label_activity_plural},
 				{:name => 'wkcrmcontact', :partial => 'wktime/tab_content', :label => :label_contact_plural}
 			   ]
 		
-		elsif params[:controller] == "wkinvoice" || params[:controller] == "wkcontract" || params[:controller] == "wkaccountproject" || params[:controller] == "wktax"
+		elsif params[:controller] == "wkinvoice" || params[:controller] == "wkcontract" || params[:controller] == "wkaccountproject"  || params[:controller] == "wkpayment" 
+		#|| params[:controller] == "wktax" || params[:controller] == "wkexchangerate"
 			tabs = [
 				{:name => 'wkinvoice', :partial => 'wktime/tab_content', :label => :label_invoice},
-			#	{:name => 'wkaccount', :partial => 'wktime/tab_content', :label => :label_accounts},
+				{:name => 'wkpayment', :partial => 'wktime/tab_content', :label => :label_payments},
+			#	{:name => 'wkcrmaccount', :partial => 'wktime/tab_content', :label => :label_accounts},
 				{:name => 'wkcontract', :partial => 'wktime/tab_content', :label => :label_contracts},
 				{:name => 'wkaccountproject', :partial => 'wktime/tab_content', :label => :label_acc_projects},				
-				{:name => 'wktax', :partial => 'wktime/tab_content', :label => :label_tax}
+			#	{:name => 'wktax', :partial => 'wktime/tab_content', :label => :label_tax},
+			#	{:name => 'wkexchangerate', :partial => 'wktime/tab_content', :label => :label_exchange_rate}
 			   ]
 		elsif params[:controller] == "wkgltransaction" || params[:controller] == "wkledger"
 			tabs = [
 				{:name => 'wkgltransaction', :partial => 'wktime/tab_content', :label => :label_transaction},
 				{:name => 'wkledger', :partial => 'wktime/tab_content', :label => :label_ledger}
 			   ]
+		elsif params[:controller] == "wkrfq" || params[:controller] == "wkquote" || params[:controller] == "wkpurchaseorder" || params[:controller] == "wksupplierinvoice" || params[:controller] == "wksupplierpayment" || params[:controller] == "wksupplieraccount" || params[:controller] == "wksuppliercontact"
+			tabs = [
+				{:name => 'wkrfq', :partial => 'wktime/tab_content', :label => :label_rfq},
+				{:name => 'wkquote', :partial => 'wktime/tab_content', :label => :label_quotes},
+				{:name => 'wkpurchaseorder', :partial => 'wktime/tab_content', :label => :label_purchase_order},
+				{:name => 'wksupplierinvoice', :partial => 'wktime/tab_content', :label => :label_supplier_invoice},
+				{:name => 'wksupplierpayment', :partial => 'wktime/tab_content', :label => :label_supplier_payment},
+				{:name => 'wksupplieraccount', :partial => 'wktime/tab_content', :label => :label_supplier_account},
+				{:name => 'wksuppliercontact', :partial => 'wktime/tab_content', :label => :label_supplier_contact}
+			   ]
+		elsif params[:controller] == "wkcrmenumeration" || params[:controller] == "wktax" || params[:controller] == "wkexchangerate" || params[:controller] == "wklocation"
+			tabs = [
+				{:name => 'wkcrmenumeration', :partial => 'wktime/tab_content', :label => :label_enumerations},
+				{:name => 'wklocation', :partial => 'wktime/tab_content', :label => :label_location},
+				{:name => 'wktax', :partial => 'wktime/tab_content', :label => :label_tax},
+				{:name => 'wkexchangerate', :partial => 'wktime/tab_content', :label => :label_exchange_rate}
+				
+			   ]
 		else
 			tabs = [
-				{:name => 'wkcrmenumeration', :partial => 'wktime/tab_content', :label => :label_enumerations}
+				{:name => 'wkproduct', :partial => 'wktime/tab_content', :label => :label_product},
+				{:name => 'wkproductitem', :partial => 'wktime/tab_content', :label => :label_item},
+				{:name => 'wkshipment', :partial => 'wktime/tab_content', :label => :label_shipment},
+				{:name => 'wkbrand', :partial => 'wktime/tab_content', :label => :label_brand},
+				{:name => 'wkattributegroup', :partial => 'wktime/tab_content', :label => :label_attribute},
+				{:name => 'wkunitofmeasurement', :partial => 'wktime/tab_content', :label => :label_uom}
+				
 			   ]
 		end
 		tabs
@@ -728,11 +760,13 @@ end
 				{:name => 'general', :partial => 'settings/tab_general', :label => :label_general},
 			#	{:name => 'display', :partial => 'settings/tab_display', :label => :label_display},
 				{:name => 'wktime', :partial => 'settings/tab_time', :label => :label_te},
-				{:name => 'attendance', :partial => 'settings/tab_attendance', :label => :label_wk_attendance},
+				{:name => 'attendance', :partial => 'settings/tab_attendance', :label => :report_attendance},
 				{:name => 'payroll', :partial => 'settings/tab_payroll', :label => :label_payroll},
 				{:name => 'billing', :partial => 'settings/tab_billing', :label => :label_wk_billing},
 				{:name => 'accounting', :partial => 'settings/tab_accounting', :label => :label_accounting},
-				{:name => 'CRM', :partial => 'settings/tab_crm', :label => :label_crm}
+				{:name => 'CRM', :partial => 'settings/tab_crm', :label => :label_crm},
+				{:name => 'purchase', :partial => 'settings/tab_purchase', :label => :label_purchasing},
+				{:name => 'inventory', :partial => 'settings/tab_inventory', :label => :label_inventory}
 			   ]	
 	end	
 	
@@ -866,6 +900,24 @@ end
 			dateSqlStr = "adddate('#{dtfield}', " + noOfDays.to_s + ")"
 		end		
 		dateSqlStr
+	end
+	
+	def getAddMonthDateStr(dtfield,intervalVal,intervalType)
+		interval = getIntervalFormula(intervalVal)
+		if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'			 
+			dateSqlStr = "date('#{dtfield}') + interval '1 month' * "	+ interval.to_s
+		elsif ActiveRecord::Base.connection.adapter_name == 'SQLite'			 
+			dateSqlStr = "date('#{dtfield}' , '+' || " + "(#{interval.to_s})" + " || ' months')"
+		elsif ActiveRecord::Base.connection.adapter_name == 'SQLServer'		
+			dateSqlStr = "DateAdd(m, " + interval.to_s + ",'#{dtfield}')"
+		else
+			dateSqlStr = "adddate('#{dtfield}', " + interval.to_s + " MONTH )"
+		end		
+		dateSqlStr
+	end
+	
+	def getIntervalFormula(intervalVal)
+		(t4.i*intervalVal*10000 + t3.i*intervalVal*1000 + t2.i*intervalVal*100 + t1.i*intervalVal*10 + t0.i*intervalVal)
 	end
 	
 	def getConvertDateStr(dtfield)		
@@ -1150,6 +1202,105 @@ end
 		grpArr.unshift(["",0]) 
 			
 		grpArr
+	end
+	
+	def showTimeExpense
+		(!Setting.plugin_redmine_wktime['wktime_enable_time_module'].blank? &&
+			Setting.plugin_redmine_wktime['wktime_enable_time_module'].to_i == 1) || (!Setting.plugin_redmine_wktime['wktime_enable_expense_module'].blank? &&
+			Setting.plugin_redmine_wktime['wktime_enable_expense_module'].to_i == 1)
+	end
+	
+	def getDatesSql(from, intervalVal, intervalType)
+		sqlStr = "(select " + getAddMonthDateStr(from,intervalVal,intervalType) + " selected_date from " +
+			"(select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,
+			 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t1,
+			 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2,
+			 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t3,
+			 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9)t4"
+		if intervalType == 'month'
+			sqlStr = sqlStr + " where #{getIntervalFormula(intervalVal)}<24000" 
+		end
+		sqlStr = sqlStr + " )v"
+	
+	end
+	
+	def getAddMonthDateStr(dtfield,intervalVal,intervalType)
+		interval = getIntervalFormula(intervalVal)
+		if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'			 
+			dateSqlStr = "date('#{dtfield}') + interval '1 month' * "	+ interval.to_s
+		elsif ActiveRecord::Base.connection.adapter_name == 'SQLite'			 
+			dateSqlStr = "date('#{dtfield}' , '+' || " + "(#{interval.to_s})" + " || ' months')"
+		elsif ActiveRecord::Base.connection.adapter_name == 'SQLServer'		
+			dateSqlStr = "DateAdd(m, " + interval.to_s + ",'#{dtfield}')"
+		else
+			dateSqlStr = "adddate('#{dtfield}', INTERVAL " + interval.to_s + " MONTH )"
+		end		
+		dateSqlStr
+	end
+	
+	def getIntervalFormula(intervalVal)
+		" (t4.i*#{intervalVal}*10000 + t3.i*#{intervalVal}*1000 + t2.i*#{intervalVal}*100 + t1.i*#{intervalVal}*10 + t0.i*#{intervalVal}) "
+	end
+	
+	def isLocked(startdate)
+		isLocked = false
+		lock = WkTeLock.order(id: :desc)	
+		if !lock.blank? && lock.size > 0		
+			startdate = startdate.to_s.to_date
+			isLocked = startdate <= lock[0].lock_date.to_date			
+		end
+		isLocked
+	end
+	
+	def concatColumnsSql(columnsArr, aliasName, joinChar)
+		joinChar = ' ' if joinChar.blank?
+		if ActiveRecord::Base.connection.adapter_name == 'SQLServer'	
+			concatSql = " #{columnsArr.join(" + '#{joinChar}' + ")} "	
+		elsif ActiveRecord::Base.connection.adapter_name == 'SQLite'
+			concatSql = " #{columnsArr.join(" || '#{joinChar}' || ")} "
+		else
+			concatSql = " concat( #{columnsArr.join(" , '#{joinChar}' , ")}) "
+		end
+		concatSql = concatSql + " as #{aliasName} " unless aliasName.blank?
+		concatSql
+	end
+		
+	def showPurchase
+		(!Setting.plugin_redmine_wktime['wktime_enable_pur_module'].blank? &&
+			Setting.plugin_redmine_wktime['wktime_enable_pur_module'].to_i == 1 ) && (isModuleAdmin('wktime_pur_group') || isModuleAdmin('wktime_pur_admin') )
+	end
+	
+	def showInventory
+		(!Setting.plugin_redmine_wktime['wktime_enable_inventory_module'].blank? &&
+			Setting.plugin_redmine_wktime['wktime_enable_inventory_module'].to_i == 1 ) && (isModuleAdmin('wktime_inventory_group') || isModuleAdmin('wktime_inventory_admin') )
+	end
+	
+	def generic_options_for_select(model, sqlCond, orderBySql, displayCol, valueCol, selectedVal, needBlank)
+		ddArray = Array.new
+		if sqlCond.blank? || orderBySql.blank?
+			if sqlCond.blank? && orderBySql.blank?
+				ddValues = model.all
+			else
+				if sqlCond.blank?
+					ddValues = model.order("#{orderBySql}")
+				else	
+					ddValues = model.where("#{sqlCond}")
+				end
+			end
+		else
+			ddValues = model.where("#{sqlCond}").order("#{orderBySql}")
+		end
+		unless ddValues.blank?
+			ddArray = ddValues.collect {|t| [t["#{displayCol}"], t["#{valueCol}"]] }
+		end
+		ddArray.unshift(["",""]) if needBlank
+		options_for_select(ddArray, :selected => selectedVal)
+	end
+	
+	def hasSettingPerm
+		ret = false
+		ret = isModuleAdmin('wktime_inventory_admin') || isModuleAdmin('wktime_accounting_admin') || isModuleAdmin('wktime_crm_admin') || isModuleAdmin('wktime_pur_admin') || isAccountUser || isModuleAdmin('wktime_billing_groups')
+		ret
 	end
 	
 end

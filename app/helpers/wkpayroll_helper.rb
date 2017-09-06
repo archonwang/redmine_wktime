@@ -36,7 +36,7 @@ module WkpayrollHelper
 		if financialMonthStr.blank? || financialMonthStr.to_i == 0
 			financialMonthStr = '4'
 		end
-		if salaryDate.month > financialMonthStr.to_i
+		unless salaryDate.month < financialMonthStr.to_i
 			financialStart = Date.civil(salaryDate.year, financialMonthStr.to_i, 1)
 			financialEnd = Date.civil(salaryDate.year+1, financialMonthStr.to_i, 1)
 		else
@@ -139,7 +139,7 @@ module WkpayrollHelper
 	end
 	
 	def getUserSalaryQueryStr
-		sqlStr = "SELECT sc.id as sc_id, sc.name as sc_name, sc.frequency as sc_frequency, " + 
+		sqlStr = "SELECT sc.id as sc_id, sc.name as sc_name, sc.component_type as sc_component_type, sc.frequency as sc_frequency, " + 
 		"sc.start_date as sc_start_date, sc.dependent_id as sc_dependent_id, " + 
 		"sc.factor as sc_factor, sc.salary_type as sc_salary_type, cvt.value as termination_date, " + 
 		"usc.factor as usc_factor, usc.dependent_id as usc_dependent_id, " + 
@@ -348,5 +348,33 @@ module WkpayrollHelper
 	
 	def deleteGlSalary(salaryDate)
 		WkGlSalary.where(:salary_date =>salaryDate).destroy_all
+	end
+	
+	def getSalaryDetail(userid,salarydate)
+		sqlStr = getQueryStr + " where s.user_id = #{userid} and s.salary_date='#{salarydate}'"
+		@wksalaryEntries = WkUserSalaryComponents.find_by_sql(sqlStr)
+	end
+	
+	def getQueryStr
+		joinDateCFId = !Setting.plugin_redmine_wktime['wktime_attn_join_date_cf'].blank? ? Setting.plugin_redmine_wktime['wktime_attn_join_date_cf'].to_i : 0
+		queryStr = "select u.id as user_id, u.firstname as firstname, u.lastname as lastname, sc.name as component_name, sc.id as sc_component_id, cvj.value as joining_date," + 
+		" cveid.value as employee_id, cvgender.value as gender,"+
+		"  s.salary_date as salary_date, s.amount as amount, s.currency as currency," + 
+		" sc.component_type as component_type from wk_salaries s "+ 
+		" inner join wk_salary_components sc on s.salary_component_id=sc.id"+  
+		" inner join users u on s.user_id=u.id" + 
+		" left join custom_values cvj on (u.id = cvj.customized_id and cvj.custom_field_id = #{getSettingCfId('wktime_attn_join_date_cf')} )"+ 
+		" left join custom_values cveid on (u.id = cveid.customized_id and cveid.custom_field_id = #{getSettingCfId('wktime_attn_employee_id_cf')} )"+ 
+		" left join custom_values cvgender on (u.id = cvgender.customized_id and cvgender.custom_field_id = #{getSettingCfId('wktime_gender_cf')} )"
+	end
+	
+	def getYTDDetail(userId,salaryDate)
+		@financialPeriod = getFinancialPeriod(salaryDate)
+		ytdDetails = WkSalary.select("sum(amount) as amount, user_id, salary_component_id").where("user_id = #{userId} and salary_date between '#{@financialPeriod[0]}' and '#{salaryDate}'").group("user_id, salary_component_id")
+		ytdAmountHash = Hash.new()
+		ytdDetails.each do |entry|
+			ytdAmountHash[entry.salary_component_id] = entry.amount
+		end
+		ytdAmountHash
 	end
 end

@@ -119,7 +119,7 @@ get 'wkattendance/getGroupMembers', :to => 'wkattendance#getGroupMembers'
   #For Report   
   get 'wkreport/index', :to => 'wkreport#index'
    
-  get 'wkreport/reportattn', :to => 'wkreport#reportattn'  
+  # get 'wkreport/reportattn', :to => 'wkreport#reportattn'  
   
   match 'updateClockInOut', :controller => 'wkattendance', :action => 'updateClockInOut', :via => [:get]
   
@@ -134,7 +134,7 @@ get 'wkattendance/getGroupMembers', :to => 'wkattendance#getGroupMembers'
   
   get 'wkpayroll/edit', :to => 'wkpayroll#edit'
   
-  get 'wkpayroll/payslip_rpt', :to => 'wkpayroll#payslip_rpt' 
+  # get 'wkreport/payslip_rpt', :to => 'wkreport#payslip_rpt' 
   
   post 'wkpayroll/updateUserSalary', :to => 'wkpayroll#updateUserSalary'
   
@@ -146,7 +146,7 @@ get 'wkattendance/getGroupMembers', :to => 'wkattendance#getGroupMembers'
   
   post 'wkpayroll/generatePayroll', :to => 'wkpayroll#generatePayroll'
   
-   get 'wkpayroll/payroll_rpt', :to => 'wkpayroll#payroll_rpt'
+   # get 'wkreport/payroll_rpt', :to => 'wkreport#payroll_rpt'
    
    get 'wkpayroll/usrsettingsindex', :to => 'wkpayroll#usrsettingsindex'
    
@@ -156,15 +156,15 @@ get 'wkattendance/getGroupMembers', :to => 'wkattendance#getGroupMembers'
     #For Billing
     get 'wkbilling/index', :to => 'wkbilling#index'	
 	
-	get 'wkaccount/index', :to => 'wkaccount#index'
+	get 'wkcrmaccount/index', :to => 'wkcrmaccount#index'
 	
-	match 'wkaccount/index', :to => 'wkaccount#index', :via => [:get, :post]
+	match 'wkcrmaccount/index', :to => 'wkcrmaccount#index', :via => [:get, :post]
 	
-	post 'wkaccount/update', :to => 'wkaccount#update'
+	post 'wkcrmaccount/update', :to => 'wkcrmaccount#update'
 	
-	get 'wkaccount/edit', :to => 'wkaccount#edit'	
+	get 'wkcrmaccount/edit', :to => 'wkcrmaccount#edit'	
 	
-	delete 'wkaccount/destroy', :to => 'wkaccount#destroy'
+	delete 'wkcrmaccount/destroy', :to => 'wkcrmaccount#destroy'
 	
 	get 'wkcontracts/index', :to => 'wkcontracts#index'
 	
@@ -227,9 +227,9 @@ get 'wkattendance/getGroupMembers', :to => 'wkattendance#getGroupMembers'
 	
 	delete 'wkledger/destroy', :to => 'wkledger#destroy'
   
-	get 'wkaccounting/pl_rpt', :to => 'wkaccounting#pl_rpt'
+	# get 'wkreport/pl_rpt', :to => 'wkreport#pl_rpt'
 	
-	get 'wkaccounting/balance_sheet', :to => 'wkaccounting#balance_sheet'
+	# get 'wkreport/balance_sheet', :to => 'wkreport#balance_sheet'
 	
 	get 'wkbase/updateClockInOut', :to => 'wkbase#updateClockInOut'
 	
@@ -287,6 +287,212 @@ get 'wkattendance/getGroupMembers', :to => 'wkattendance#getGroupMembers'
 	
 	delete 'wkcrmenumeration/destroy', :to => 'wkcrmenumeration#destroy' 
 	
-	get 'wkcrm/lead_conv_rpt', :to => 'wkcrm#lead_conv_rpt'
+	get 'wkreport/report', :to => 'wkreport#report'
 	
-	get 'wkcrm/sales_act_rpt', :to => 'wkcrm#sales_act_rpt'
+	# get 'wkreport/sales_act_rpt', :to => 'wkreport#sales_act_rpt'
+	
+	# For Payment
+	
+	get 'wkpayment/index', :to => 'wkpayment#index'
+	
+	get 'wkpayment/edit', :to => 'wkpayment#edit'	
+	
+	post 'wkpayment/update', :to => 'wkpayment#update'
+	
+	#get 'wkpayment/getBillableProjIds', :to => 'wkpayment#getBillableProjIds'
+	
+	get 'wkpaymententity/getBillableProjIds', :to => 'wkpaymententity#getBillableProjIds'
+	
+	#get 'wkpayment/showInvoices', :to => 'wkpayment#showInvoices'
+	
+	get 'wkpaymententity/showInvoices', :to => 'wkpaymententity#showInvoices'
+	
+	get 'wkexchangerate/index', :to => 'wkexchangerate#index'
+	
+	get 'wkexchangerate/update', :to => 'wkexchangerate#update'
+	
+	get 'wkinvoice/new', :to => 'wkinvoice#new' 
+	
+	# For Purchase
+	
+	get 'wkpurchase/index', :to => 'wkpurchase#index'
+	
+	get 'wkrfq/index', :to => 'wkrfq#index'
+	
+	post 'wkrfq/index', :to => 'wkrfq#index'
+    
+	get 'wkrfq/edit', :to => 'wkrfq#edit'
+	
+	post 'wkrfq/update', :to => 'wkrfq#update'	
+	
+	delete 'wkrfq/destroy', :to => 'wkrfq#destroy'
+	
+	get 'wkquote/index', :to => 'wkquote#index'
+	
+	get 'wkquote/new', :to => 'wkquote#new'
+	
+	get 'wkquote/edit', :to => 'wkquote#edit'
+	
+	post 'wkquote/update', :to => 'wkquote#update'	
+	
+	delete 'wkquote/destroy', :to => 'wkquote#destroy'
+	
+	get 'wkquote/invreport', :to => 'wkquote#invreport' 
+	
+	get 'wkpurchaseorder/index', :to => 'wkpurchaseorder#index'
+	
+	get 'wkpurchaseorder/new', :to => 'wkpurchaseorder#new'
+	
+	get 'wkpurchaseorder/edit', :to => 'wkpurchaseorder#edit'
+	
+	post 'wkpurchaseorder/update', :to => 'wkpurchaseorder#update'	
+	
+	delete 'wkpurchaseorder/destroy', :to => 'wkpurchaseorder#destroy'
+	
+	get 'wkpurchaseorder/invreport', :to => 'wkpurchaseorder#invreport' 
+	
+	get 'wksupplierinvoice/index', :to => 'wksupplierinvoice#index'
+	
+	get 'wksupplierinvoice/new', :to => 'wksupplierinvoice#new'
+	
+	get 'wksupplierinvoice/edit', :to => 'wksupplierinvoice#edit'
+	
+	post 'wksupplierinvoice/update', :to => 'wksupplierinvoice#update'	
+	
+	delete 'wksupplierinvoice/destroy', :to => 'wksupplierinvoice#destroy'
+	
+	get 'wksupplierinvoice/invreport', :to => 'wksupplierinvoice#invreport' 
+	
+	get 'wksupplierpayment/index', :to => 'wksupplierpayment#index'
+	
+	get 'wksupplieraccount/index', :to => 'wksupplieraccount#index'
+	
+	match 'wksupplieraccount/index', :to => 'wksupplieraccount#index', :via => [:get, :post]
+	
+	post 'wksupplieraccount/update', :to => 'wksupplieraccount#update'
+	
+	get 'wksupplieraccount/edit', :to => 'wksupplieraccount#edit'	
+	
+	delete 'wksupplieraccount/destroy', :to => 'wksupplieraccount#destroy'
+	
+	get 'wksuppliercontact/index', :to => 'wksuppliercontact#index'
+	
+	get 'wksuppliercontact/edit', :to => 'wksuppliercontact#edit'
+	
+	post 'wksuppliercontact/update', :to => 'wksuppliercontact#update'
+	
+	delete 'wksuppliercontact/destroy', :to => 'wksuppliercontact#destroy'
+	
+	get 'wkpurchaseorder/getRfqQuoteIds', :to => 'wkpurchaseorder#getRfqQuoteIds'
+	
+	get 'wksupplierinvoice/getRfqPoIds', :to => 'wksupplierinvoice#getRfqPoIds'
+	
+	get 'wksupplierpayment/edit', :to => 'wksupplierpayment#edit'
+	
+	post 'wksupplierpayment/update', :to => 'wksupplierpayment#update'
+	
+	get 'wktime/lockte', :to => 'wktime#lockte'
+	
+	 get 'wkexpense/lockte', :to => 'wkexpense#lockte'
+	
+	post 'wktime/lockupdate', :to => 'wktime#lockupdate'
+	
+	get 'wklocation/index', :to => 'wklocation#index' 
+	
+	#get 'wkproductcatagory/index', :to => 'wkproductcatagory#index'
+	
+	get 'wkproduct/index', :to => 'wkproduct#index'
+	
+	post 'wkproduct/index', :to => 'wkproduct#index'
+    
+	get 'wkproduct/edit', :to => 'wkproduct#edit'
+	
+	post 'wkproduct/update', :to => 'wkproduct#update'	
+	
+	delete 'wkproduct/destroy', :to => 'wkproduct#destroy'
+    
+	get 'wkproduct/category', :to => 'wkproduct#category'
+	
+	get 'wkproduct/updateCategory', :to => 'wkproduct#updateCategory'
+	
+	post 'wkproduct/updateCategory', :to => 'wkproduct#updateCategory'	
+	
+	#delete 'wkproduct/destroyCategory', :to => 'wkproduct#destroyCategory'
+	
+	get 'wkproductitem/index', :to => 'wkproductitem#index'
+	
+	get 'wkshipment/index', :to => 'wkshipment#index'
+	
+	get 'wkshipment/new', :to => 'wkshipment#new'
+	
+	get 'wkshipment/edit', :to => 'wkshipment#edit'
+	
+	post 'wkshipment/update', :to => 'wkshipment#update'
+	
+	delete 'wkshipment/destroy', :to => 'wkshipment#destroy'
+	
+	get 'wkunitofmeasurement/index', :to => 'wkunitofmeasurement#index'
+	
+	get 'wklogmaterial/modifyProductDD', :to => 'wklogmaterial#modifyProductDD'
+	
+	get 'wkshipment/populateProductItemDD', :to => 'wkshipment#populateProductItemDD'
+	
+	get 'wkproductitem/index', :to => 'wkproductitem#index'
+	
+	post 'wkproductitem/index', :to => 'wkproductitem#index'
+    
+	get 'wkproductitem/edit', :to => 'wkproductitem#edit'
+	
+	post 'wkproductitem/update', :to => 'wkproductitem#update'	
+	
+	delete 'wkproductitem/destroy', :to => 'wkproductitem#destroy'
+    
+	get 'wkproductitem/transfer', :to => 'wkproductitem#transfer'
+	
+	post 'wkproductitem/updateTransfer', :to => 'wkproductitem#updateTransfer'	
+	
+	get 'wkbrand/index', :to => 'wkbrand#index'
+	
+	post 'wkbrand/index', :to => 'wkbrand#index'
+    
+	get 'wkbrand/edit', :to => 'wkbrand#edit'
+	
+	post 'wkbrand/update', :to => 'wkbrand#update'	
+	
+	delete 'wkbrand/destroy', :to => 'wkbrand#destroy'
+    
+	get 'wkbrand/edit_product_model', :to => 'wkbrand#edit_product_model'
+	
+	post 'wkbrand/updateProductModel', :to => 'wkbrand#updateProductModel'	
+	
+	delete 'wkbrand/destroyProductModel', :to => 'wkbrand#destroyProductModel'
+	
+	#get 'wkproductmodel/index', :to => 'wkproductmodel#index'
+	
+	#get 'wkproductattribute/index', :to => 'wkproductattribute#index'
+	
+	get 'wkattributegroup/index', :to => 'wkattributegroup#index'
+	
+	post 'wkattributegroup/index', :to => 'wkattributegroup#index'
+    
+	get 'wkattributegroup/edit', :to => 'wkattributegroup#edit'
+	
+	post 'wkattributegroup/update', :to => 'wkattributegroup#update'	
+	
+	delete 'wkattributegroup/destroy', :to => 'wkattributegroup#destroy'
+    
+	get 'wkattributegroup/edit_product_attribute', :to => 'wkattributegroup#edit_product_attribute'
+	
+	post 'wkattributegroup/updateProductAttribute', :to => 'wkattributegroup#updateProductAttribute'	
+	
+	delete 'wkattributegroup/destroyProductAttribute', :to => 'wkattributegroup#destroyProductAttribute'
+	
+	get 'wklocation/edit', :to => 'wklocation#edit'
+	
+	post 'wklocation/update', :to => 'wklocation#update'
+	
+	delete 'wklocation/destroy', :to => 'wklocation#destroy'
+	
+	get 'wkunitofmeasurement/update', :to => 'wkunitofmeasurement#update'
+	
+	get 'wkshipment/getSupplierInvoices', :to => 'wkshipment#getSupplierInvoices'

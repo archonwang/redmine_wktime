@@ -134,7 +134,8 @@ it:
   label_wk_expensesheet: Expensesheet 
   text_wk_no_reminder: No reminders to send
   
-  label_wk_attendance: Attendance
+  report_attendance: Attendance
+  report_spent_time: Tempo impiegato
   label_wk_enable_clock_in_out: Enable Clock In / Clock Out
   label_wk_sick_leave_accrual: Sick Leave Accrual
   label_wk_paid_leave_accrual: Paid Leave Accrual
@@ -241,7 +242,7 @@ it:
   label_loss_of_pay: Loss Of Pay
   label_financial_year_start: Financial Year Start
   label_salary_detail: Salary Details
-  label_wk_payslip: Pay Slip
+  report_payslip: Pay Slip
   label_period: Period
   label_emp_name: Employee Name
   label_ytd: YTD
@@ -262,8 +263,12 @@ it:
   label_component: Component
   label_factor: Factor
   label_generate: Generate
-  label_payroll_report: Payroll report
+  report_payroll: Payroll report
   label_factor_errormsg: Please Enter the Factor
+  label_dependent_field: Dependent Field
+  label_salary_component: Salary Component
+  label_override_common_setting: Override common setting
+  label_actual: Actual
   
   label_wk_billing: Billing
   label_enable_billing_module: Enable Billing module
@@ -354,7 +359,7 @@ it:
   label_bank: Bank
   label_customer: Customer
   label_supplier: Supplier
-  label_export_invoice: Print Invoice
+  label_export_invoice: Print
   label_authorized_signatory: Authorized Signatory
   label_place: Place
   label_erpmine: ERPmine
@@ -432,7 +437,7 @@ it:
   label_sundry_debtors: Sundry Debtors
   label_suspense_ac: Suspense A/c
   label_unsecured_loans: Unsecured Loans
-  label_profit_loss_account: Profit & Loss A/c
+  report_profit_loss: Profit & Loss A/c
   label_particulars: Particulars
   label_trading_account: Trading Account
   label_profit: Profit
@@ -452,7 +457,7 @@ it:
   label_debit: Debit
   label_credit: Credit
   label_date: Date
-  label_balance_sheet: Balance Sheet
+  report_balance_sheet: Balance Sheet
   label_as_at: As at
   label_of_funds: "%{value} of Funds"
   label_application: Application
@@ -557,11 +562,157 @@ it:
   label_crm_user_group: CRM User Group
   label_crm_admin_group: CRM Admin Group
   label_position: Position
-  label_lead_conversion: Lead Conversion
-  label_sales_activity: Sales Activity
+  report_lead_conversion: Lead Conversion
+  report_sales_activity: Sales Activity
   label_sales_cycle: Sales Cycle
   label_conversion_rate: Conversion Rate
   label_completed_date_time: "Completed Date & Time"
   label_completion_time: Completion Time
   label_days: Days
   label_average: Average
+  report_civilian_attendance: Civilian Attendance
+  minimum_working_days_for_accrual: Minimum working days for leave accrual
+  label_accrual_multiplier: Accrual Multiplier
+  
+  label_enable_time_module: Enable Time Module
+  
+  label_payments: Payments
+  label_payment_date: Payment Date
+  label_payment_type: Payment Type
+  label_reference_number: Reference Number
+  label_exchange_rate: Exchange Rate
+  label_from_currency: From Currency
+  label_to_currency: To Currency
+  report_order_to_cash: AR Aging
+  label_to_currency: To Currency
+  label_new_invoice: New Invoice
+  label_populate_unbilled_items: Populate Unbilled Items
+  label_issue_billing_currency: Issue Billing Currency
+  label_issue_billing_rate: Issue Billing Rate
+  label_preview_invoice: Unbilled Invoice
+  label_fluctuation: Fluctuation
+  label_pay_invoice: Accept Payment
+  label_unbilled: Unbilled
+  label_payment_items: Payment Items
+  label_minus: Minus
+  label_credit_from_prv_inv: "Credit From Previous Invoice #%{invId}"
+  label_credit_from_prv_inv_pay: "Credit From Previous Invoice #%{invId} Payment #%{payId}"
+  
+  label_rfq: RFQ
+  label_quotes: Quotes
+  label_purchase_order: Purchase Order
+  label_supplier_invoice: Supplier Invoice
+  label_supplier_payment: Supplier Payment
+  label_new_rfq: New RFQ
+  label_rfq_details: RFQ Details
+  label_new_quote: New Quote
+  label_new_pur_order: New Purchase Order
+  label_populate_quote_items: Populate From Quote
+  label_quote_number: Quote Number
+  label_po_number: PO Number
+  label_quote_date: Quote Date
+  label_po_date: Purchase Order Date
+  label_won: Won
+  label_won_note: Wining Note
+  label_quote_items: Quote Items
+  label_po_items: Purchase Order Items
+  label_rfq_name: RFQ Name
+  label_new_sup_invoice: New Supplier Invoice
+  label_si_items: Supplier Invoice Items
+  label_sp_number: Supplier Invoice Number
+  label_sp_date: Supplier Invoice Date
+  label_populate_purchase_items: Populate Purchase Order
+  label_supplier_account: Supplier Account
+  label_supplier_contact: Supplier Contact
+  label_winning_quote: Winning Quote
+  label_purchasing: Purchasing
+  label_enable_pur_module: Enable Purchase Module
+  label_pur_user_group: Purchase User Group
+  label_pur_admin_group: Purchase Admin Group
+  report_purchase_cycle: Purchase Cycle
+  label_quote_number_prefix: Quote Number Prefix
+  label_po_number_prefix: PO Number Prefix
+  label_si_number_prefix: SI Number Prefix
+  label_in_days: In Days
+  button_new_lock: Lock T&E
+  field_lock_date: Lock Time/Expense sheets up to
+  label_lock: Lock T&E
+  label_last_lock_by: "Last Locked by: %{name}"
+  label_quote_components: Quote Components
+  label_po_components: Purchase Order Components  
+  label_si_components: Supplier Invoice Components
+  label_all_accounts: All Accounts
+  label_opening_balance: Opening Balance
+  label_current_total: Current Total
+  label_closing_balance: Closing Balance
+  error_please_select_rfq: Please select RFQ
+  error_please_select_winning_quote: Please select Winning Quote
+  error_please_select_po: Please select Purchase Order
+  
+  label_inventory: Inventory
+  label_inventory_admin_group: Inventory Admin Group
+  label_inventory_user_group: Inventory User Group
+  label_enable_inventory_module: Enable Inventory Module
+  label_hr: HR
+  label_location: Location
+  label_product: Product
+  label_shipment: Shipment
+  label_category: Category
+  label_uom: Unit Of Measure
+  label_item: Item
+  label_new_shipment: New Shipment
+  label_shipment_items: Shipment Items
+  label_shipment_date: Shipment Date
+  label_serial_number: Serial Number
+  label_material: Material
+  label_cost_price: Cost Price
+  label_sell_price: Sell Price
+  label_brand: Brand
+  label_log_type: Log Type
+  label_cost_price: Cost Price
+  label_selling_price: Selling Price
+  label_over_head_price: Over Head Price
+  label_org_cost_price: Original Cost Price
+  label_org_selling_price: Original Selling Price
+  label_org_over_head_price: Original Over Head Price
+  label_total_quantity: Total Quantity
+  label_available_quantity: Available Quantity
+  label_model: Model
+  label_attribute_group: Attribute Group
+  label_product_catagory: Product Catagory
+  label_product_items: Product Items
+  label_category: Category
+  label_populate_items: Populate Items
+  label_new_product_item: New Product Item
+  label_edit_product_item: Edit Product Item
+  label_product_item: Product Item
+  label_part_number: Part Number
+  label_inventory_information: Inventory Information
+  field_quantity: Quantity
+  field_selling_price: Selling Price
+  button_transfer: Transfer to
+  report_stock: Stock Report
+  label_stock_value: Stock value
+  label_new_product: New Product
+  label_new_category: New Category
+  label_new_brand: New Brand
+  label_new_model: New Model
+  label_location_type: Location Type
+  label_new_location: New Location
+  label_location_detail: Location Detail
+  label_new_model: New Model
+  label_product_model: Product Model
+  label_product_attribute: Product Attribute
+  label_new_product_attribute: New Attributes
+  label_new_attribute_group: New Attribute Group
+  label_models: Models
+  label_attributes: Attributes
+  label_transfer: Transfer
+  label_selling_price_error: Selling price cannot be empty
+  label_quantity_error: Quantity cannot be empty
+  label_project_error: Project cannot be empty
+  label_issue_error: Issue cannot be empty
+  label_activity_error: Activity cannot be empty
+  error_shipment_items_used: Could not delete the shipment. Some items in the shipment were used
+  error_material_delete: Unable delete the material entries
+  error_material_delete_billed: Could not delete the invoiced material entries
