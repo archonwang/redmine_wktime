@@ -1,4 +1,4 @@
-var wktimeIndexUrl, wkexpIndexUrl, wkattnIndexUrl,wkReportUrl,clockInOutUrl, payrollUrl, userssettingsUrl, blgaccUrl, blgcontractsUrl, blgaccpjtsUrl, blginvoiceUrl, blgtaxUrl, blgtxnUrl, blgledgerUrl, crmleadsUrl, crmopportunityUrl, crmactivityUrl, crmcontactUrl, crmenumUrl, blgpaymentUrl, blgexcrateUrl, purRfqUrl, purQuoteUrl, purPurOrderUrl, purSupInvUrl, purSupAccUrl, purSupContactUrl, purSupPayUrl, wklocationUrl,  wkproductUrl, wkproductitemUrl, wkshipmentUrl, wkUomUrl, wkbrandUrl, wkattributegroupUrl; // wkproductcatagoryUrl,
+var wktimeIndexUrl, wkexpIndexUrl, wkattnIndexUrl,wkReportUrl,clockInOutUrl, payrollUrl, userssettingsUrl, blgaccUrl, blgcontractsUrl, blgaccpjtsUrl, blginvoiceUrl, blgtaxUrl, blgtxnUrl, blgledgerUrl, crmleadsUrl, crmopportunityUrl, crmactivityUrl, crmcontactUrl, crmenumUrl, blgpaymentUrl, blgexcrateUrl, purRfqUrl, purQuoteUrl, purPurOrderUrl, purSupInvUrl, purSupAccUrl, purSupContactUrl, purSupPayUrl, wklocationUrl,  wkproductUrl, wkproductitemUrl, wkshipmentUrl, wkUomUrl, wkbrandUrl, wkattributegroupUrl, wkassetUrl, wkassetdepreciationUrl, wkgrpPermissionUrl, wkSchedulingUrl, wkShiftUrl, wkPublicHolidayUrl; 
 var no_user ="";
 var grpUrl="";
 var userUrl="";
@@ -33,26 +33,7 @@ $(document).ready(function() {
 						rUrl = rAppEmailUrl;
 					}
 					var from = document.getElementById('from').value;
-					var to = document.getElementById('to').value;
-					/*var userOpt = document.getElementById('user_id').options;
-					var strUserIds = "";
-					var arrUserId = []
-					for(var i = 1; i < userOpt.length; i++) {
-						//0 -- All User
-						arrUserId.push(userOpt[i].value);
-					}
-					strUserIds = arrUserId.toString();*/
-					
-					/*var teStatusOpt = document.getElementById('status').options;
-					var strStatus = "";
-					var arrStatus = []
-					for(var i = 0; i < teStatusOpt.length; i++) {
-						if (teStatusOpt[i].selected) {
-							arrStatus.push(teStatusOpt[i].value);
-						}
-					}
-					strStatus = arrStatus.toString();
-					alert("strStatus : " + strStatus);*/
+					var to = document.getElementById('to').value;					
 					if(rUrl != "") {
 						$.ajax({
 							url: rUrl,
@@ -113,7 +94,7 @@ function openReportPopup(){
 			break;
 		}
 	}
-	//popupUrl = wkattnReportUrl + '&report_type=' + reportType + '&group_id=' + groupId + '&user_id=' + userId + '&period_type=' + periodType + '&searchlist=' + searchlist; 
+	
 	popupUrl = wkattnReportUrl + '&report_type=' + reportType + '&group_id=' + groupId + '&action_type=' + actionType + '&user_id=' + userId + '&period_type=' + periodType + '&searchlist=' + searchlist + '&project_id=' + projectId;
 	if(periodType>1){
 		popupUrl = popupUrl + '&from=' + fromVal + '&to=' + toVal		
@@ -251,15 +232,18 @@ $(document).ready(function()
 	changeProp('tab-wksupplieraccount',purSupAccUrl);
 	changeProp('tab-wksuppliercontact',purSupContactUrl);
 	changeProp('tab-wklocation',wklocationUrl);
-	//changeProp('tab-wkproductcatagory',wkproductcatagoryUrl);
 	changeProp('tab-wkproduct',wkproductUrl);
 	changeProp('tab-wkproductitem',wkproductitemUrl);
+	changeProp('tab-wkasset',wkassetUrl);
+	changeProp('tab-wkassetdepreciation',wkassetdepreciationUrl);
 	changeProp('tab-wkshipment',wkshipmentUrl);
 	changeProp('tab-wkunitofmeasurement',wkUomUrl);
 	changeProp('tab-wkbrand',wkbrandUrl);
-	//changeProp('tab-wkproductmodel',wkproductmodelUrl);
-	//changeProp('tab-wkproductattribute',wkproductattributeUrl);
-	changeProp('tab-wkattributegroup',wkattributegroupUrl);
+	changeProp('tab-wkattributegroup',wkattributegroupUrl); 
+	changeProp('tab-wkgrouppermission',wkgrpPermissionUrl);
+	changeProp('tab-wkscheduling',wkSchedulingUrl);
+	changeProp('tab-wkshift',wkShiftUrl);
+	changeProp('tab-wkpublicholiday',wkPublicHolidayUrl);
 });
 
 
@@ -324,7 +308,7 @@ function progrpChanged(btnoption, userid, needBlankOption){
 
 function accProjChanged(uid, fldId, isparent, blankOptions)
 {
-	var acc_name = document.getElementById(fldId);//document.getElementById("account_id");
+	var acc_name = document.getElementById(fldId);
 	var parentId = 0
 	if( acc_name.length > 0)
 	{
@@ -355,8 +339,7 @@ function accProjChanged(uid, fldId, isparent, blankOptions)
 function actRelatedDd(uid, loadProjects, needBlankOption, actType, contactType, loadPayment)
 {
 	var relatedTo = document.getElementById("related_to");
-	var relatedType = relatedTo.options[relatedTo.selectedIndex].value;
-	//var needBlankOption = false;
+	var relatedType = relatedTo.options[relatedTo.selectedIndex].value;	
 	var relatedparentdd = document.getElementById("related_parent");
 	userid = uid;
 	var $this = $(this);
@@ -440,9 +423,9 @@ function dateRangeValidation(fromId, toId)
 	
 }
 
-function productCategoryChanged(curDDId, changeDDId, uid)
+function productCategoryChanged(changeDDId, uid, logType)
 {
-	var currDD = document.getElementById(curDDId);
+	//var currDD = document.getElementById(curDDId);
 	var needBlankOption = false;
 	var changeDD = document.getElementById(changeDDId);
 	userid = uid;
@@ -450,20 +433,22 @@ function productCategoryChanged(curDDId, changeDDId, uid)
 	$.ajax({
 	url: productModifyUrl,
 	type: 'get',
-	data: {id: currDD.value, ptype: changeDDId, product_id: changeDD.value },
+	data: {ptype: changeDDId, log_type: logType, product_id: changeDD.value },
 	success: function(data){ updateUserDD(data, changeDD, userid, needBlankOption, false, "");},
 	beforeSend: function(){ $this.addClass('ajax-loading'); },
-	complete: function(){ productChanged(changeDDId, 'brand_id', uid, true, false); $this.removeClass('ajax-loading'); }	      
+	complete: function(){ productChanged('product', 'product_item', uid, true, false, 'log_type'); $this.removeClass('ajax-loading'); }	      
 	});
 }
 
-function productChanged(curDDId, changeDDId, uid, changeAdditionalDD, needBlank)
-{
+function productChanged(curDDId, changeDDId, uid, changeAdditionalDD, needBlank, logTypeId, locationId)
+{	
 	var currDD = document.getElementById(curDDId);
 	var needBlankOption = needBlank;
 	var changeDD = document.getElementById(changeDDId);
 	var productId;
 	var updateDD;
+	var logType = 'I';
+	var locId;
 	if(changeDDId == 'product_model_id'){
 		var productDD = document.getElementById('product_id');
 		productId = productDD.value;
@@ -477,19 +462,49 @@ function productChanged(curDDId, changeDDId, uid, changeAdditionalDD, needBlank)
 		if(changeDDId.includes("product_item_id")){
 			updateDD = "product_item_id"
 			changeDD = document.getElementById("product_item_id"+rowNum);
-		}		
+		}
+		if(changeDDId.includes("product_type")){
+			updateDD = "product_type"
+			changeDD = document.getElementById("product_type"+rowNum);
+		}			
 		var productDD = document.getElementById(curDDId);
 		productId = productDD.value;
+	}
+	if(logTypeId != null)
+	{
+		logTypeVal = document.getElementById(logTypeId).value;
+		logType = logTypeVal == 'M' ? 'I' : logTypeVal;
+	}
+	if(locationId != null)
+	{
+		locId = document.getElementById(locationId).value;
 	}
 	userid = uid;
 	var $this = $(this);
 	$.ajax({
 	url: productModifyUrl,
 	type: 'get',
-	data: {id: currDD.value, ptype: changeDDId, product_id: productId, update_DD: updateDD },
+	data: {id: currDD.value, ptype: changeDDId, product_id: productId, update_DD: updateDD, log_type: logType, location_id: locId },
 	success: function(data){ updateUserDD(data, changeDD, userid, needBlankOption, false, "");},
 	beforeSend: function(){ $this.addClass('ajax-loading'); },
-	complete: function(){ if(changeAdditionalDD && changeDDId == 'brand_id'){productChanged('brand_id','product_model_id', uid, false, true);productChanged('product_id','product_attribute_id', uid, false, true);} else if(changeAdditionalDD){productItemChanged('product_item', 'product_quantity', 'product_cost_price', 'product_sell_price', uid); } $this.removeClass('ajax-loading'); }	      
+	complete: function(){ if(changeAdditionalDD && changeDDId == 'brand_id'){productChanged('brand_id','product_model_id', uid, false, true, null);productChanged('product_id','product_attribute_id', uid, false, true, null);} else if(changeAdditionalDD && logTypeId != null ){productItemChanged('product_item', 'product_quantity', 'product_cost_price', 'product_sell_price', uid, 'log_type'); }  $this.removeClass('ajax-loading'); }	      
+	});
+}
+
+function productAssetChanged(curDDId, changeDDId, uid, needBlank)
+{
+	var currDD = document.getElementById(curDDId);
+	var needBlankOption = needBlank;
+	var changeDD = document.getElementById(changeDDId);	
+	userid = uid;
+	var $this = $(this);
+	$.ajax({
+	url: productAssetUrl,
+	type: 'get',
+	data: {id: currDD.value },
+	success: function(data){ updateUserDD(data, changeDD, userid, needBlankOption, false, "");},
+	beforeSend: function(){ $this.addClass('ajax-loading'); },
+	complete: function(){  $this.removeClass('ajax-loading'); }	      
 	});
 }
 
@@ -511,17 +526,23 @@ function productUOMChanged(curDDId, changeDDId, uid)
 	});
 }
 
-function productItemChanged(curDDId, qtyDD, cpDD, spDD, uid)
+function productItemChanged(curDDId, qtyDD, cpDD, spDD, uid, logTypeId)
 {
 	var currDD = document.getElementById(curDDId);
 	var needBlankOption = false;
 	var productDD = document.getElementById('product');
 	var $this = $(this);
+	var logType = 'I';
 	userid = uid;
+	if(logTypeId != null)
+	{
+		logTypeVal = document.getElementById(logTypeId).value;
+		logType = logTypeVal == 'M' ? 'I' : logTypeVal;
+	}
 	$.ajax({
 	url: productModifyUrl,
 	type: 'get',
-	data: {id: currDD.value, ptype: 'inventory_item', product_id: productDD.value },
+	data: {id: currDD.value, ptype: 'inventory_item', product_id: productDD.value, log_type: logType },
 	success: function(data){ setProductLogAttribute(data, qtyDD, cpDD, spDD);},
 	beforeSend: function(){ $this.addClass('ajax-loading'); },
 	complete: function(){ productUOMChanged(curDDId, 'uom_id', uid); $this.removeClass('ajax-loading'); }	      
@@ -542,9 +563,18 @@ function setProductLogAttribute(data, qtyDD, cpDD, spDD)
 		}		
 		
 		document.getElementById('spcurrency').innerHTML = pctData[3];
-		document.getElementById(spDD).value = parseFloat(pctData[4]).toFixed(2);
+		spVal = pctData[4] == "" ? "" : parseFloat(pctData[4]).toFixed(2);
+		document.getElementById(spDD).value = spVal;
 		document.getElementById('inventory_item_id').value = pctData[0];
-		document.getElementById('total').innerHTML = pctData[3] + (parseFloat(pctData[4] * 1).toFixed(2));
+		document.getElementById('total').innerHTML = pctData[3] + (parseFloat(pctData[4] * 1).toFixed(2));		
+		if(pctData[5] != "")
+		{
+			document.getElementById('unittext').innerHTML = pctData[5]  ;
+		}
+		else{
+			document.getElementById('unittext').innerHTML = ""  ;
+		}
+		
 	}
 	else
 	{
@@ -556,6 +586,7 @@ function setProductLogAttribute(data, qtyDD, cpDD, spDD)
 		document.getElementById(spDD).value = "";
 		document.getElementById('inventory_item_id').value = "";
 		document.getElementById('total').innerHTML = "";
+		document.getElementById('unittext').innerHTML = "";
 	}
 	
 }
@@ -586,4 +617,91 @@ function getSupplierInvoice(uid, loadDdId)
 	beforeSend: function(){ $this.addClass('ajax-loading'); },
 	complete: function(){ $this.removeClass('ajax-loading'); }	   
 	});
+}
+
+function hideLogDetails(uid)
+{
+	var logType = document.getElementById("log_type").value;
+	if(logType == 'T')
+	{
+		document.getElementById('time_entry_hours').style.display = 'block';
+		$('label[for="time_entry_hours"]').css('display', 'block');
+		//$('label[for="time_entry_hours"]').html('Hours<span style="color:red;">*</span>');
+		document.getElementById("materialtable").style.display = 'none';
+		document.getElementById("expensetable").style.display = 'none';
+	}
+	else if(logType == 'E') {
+		document.getElementById('time_entry_hours').style.display = 'none';
+		$('label[for="time_entry_hours"]').css('display', 'none');
+		//$('label[for="time_entry_hours"]').html('Amount<span style="color:red;">*</span>');
+		document.getElementById("materialtable").style.display = 'none';
+		document.getElementById("expensetable").style.display = 'block';
+	}
+	else 
+	{		
+		document.getElementById('time_entry_hours').style.display = 'none';
+		$('label[for="time_entry_hours"]').css('display', 'none');
+		document.getElementById("expensetable").style.display = 'none';
+		document.getElementById("materialtable").style.display = 'block';
+		if(uid != null) {
+			productCategoryChanged('product', uid, logType);
+		}
+	}
+	
+}
+
+function depreciatonFormSubmission()
+{ 
+	var dateval = new Date(document.getElementById("to").value);
+	var fromdateval = new Date(document.getElementById("from").value);
+	//dateval.setDate(dateval.getDate() + 1);
+	var toDateStr = dateval.getFullYear() + '-' + (("0" + (dateval.getMonth() + 1)).slice(-2)) + '-' + (("0" + dateval.getDate()).slice(-2));
+	var fromDateStr = fromdateval.getFullYear() + '-' + (("0" + (fromdateval.getMonth() + 1)).slice(-2)) + '-' + (("0" + fromdateval.getDate()).slice(-2));
+	if (isNaN(dateval.getFullYear()) || isNaN(fromdateval.getFullYear())){
+		alert("Please select valid date range");
+	}
+	else {
+		var isFormSubmission = confirm(apply_warn + " " + fromDateStr + " to " + toDateStr);
+		if (isFormSubmission == true) {
+			document.getElementById("generate").value = true; 
+			document.getElementById("query_form").submit();
+		} 
+	}
+	
+}
+
+function scheduleFormSubmission()
+{ 
+	var isFormSubmission = confirm(apply_warn);
+	if (isFormSubmission == true) {
+		document.getElementById("generate").value = true; 
+		$('#ajax-indicator').show();
+		$("#schedule_form").submit();
+		document.getElementById("generate").value = false;			
+	} 
+	
+}
+
+
+function validateAsset()
+{
+	var valid=true;
+	var assetDropdown = document.getElementById("inventory_item_id");
+	if (assetDropdown.value=="")
+	{
+		valid=false;
+		alert(no_asset);
+	}
+	return valid;
+}
+
+function showorHide(isshow, divId)
+{
+	if(!isshow)
+	{
+		document.getElementById(divId).style.disabled = true;		
+	}
+	else {
+		document.getElementById(divId).style.disabled = false;
+	}
 }

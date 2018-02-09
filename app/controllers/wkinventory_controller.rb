@@ -16,16 +16,20 @@ before_filter :check_admin_redirect, :only => [:destroy]
 	end
 	
 	def check_permission
-		return isModuleAdmin('wktime_inventory_group') || isModuleAdmin('wktime_inventory_admin')
+		return validateERPPermission("V_INV")
 	end
 	
 	def check_admin_redirect
 		allow = false
-		allow = isModuleAdmin('wktime_inventory_admin')
+		allow = validateERPPermission("D_INV")
 		unless allow
 			render_403
 			return false
 		end
+	end
+	
+	def hasDeletePermission
+		validateERPPermission("D_INV")
 	end
 
 
